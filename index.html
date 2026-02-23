@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BACFLIX - أرشيف البكالوريا الجزائرية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: #000000;
+            border-bottom: 2px solid #e50914;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(229, 9, 20, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #e50914;
+            letter-spacing: -2px;
+        }
+
+        .logo-subtitle {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .logo-emoji {
+            font-size: 2rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #e50914;
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
+        }
+
+        .search-container input::placeholder {
+            color: #666;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Branch Selection */
+        .section-title {
+            font-size: 1.3rem;
+            color: #e50914;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .branches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .branch-btn {
+            padding: 1.2rem;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .branch-btn:hover {
+            border-color: #e50914;
+            background: rgba(229, 9, 20, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .branch-btn.active {
+            background: #e50914;
+            border-color: #e50914;
+            color: #ffffff;
+        }
+
+        .branch-emoji {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Year Selection */
+        .year-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .year-header button {
+            padding: 0.5rem 1rem;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #ffffff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .year-header button:hover {
+            border-color: #e50914;
+        }
+
+        .years-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .year-btn {
+            padding: 0.6rem;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .year-btn:hover {
+            border-color: #e50914;
+        }
+
+        .year-btn.active {
+            background: #e50914;
+            border-color: #e50914;
+        }
+
+        /* Subjects Grid */
+        .subjects-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .subjects-header h2 {
+            font-size: 1.3rem;
+            color: #e50914;
+        }
+
+        .clear-search {
+            color: #888;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .clear-search:hover {
+            color: #e50914;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .subject-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .subject-card:hover {
+            border-color: #e50914;
+            background: rgba(229, 9, 20, 0.05);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(229, 9, 20, 0.15);
+        }
+
+        .subject-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+
+        .subject-card:hover .subject-name {
+            color: #e50914;
+        }
+
+        .subject-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .preview-btn {
+            background: #2a2a2a;
+            color: #ffffff;
+        }
+
+        .preview-btn:hover {
+            background: #333;
+            border-color: #e50914;
+        }
+
+        .download-btn {
+            background: #e50914;
+            color: #ffffff;
+        }
+
+        .download-btn:hover {
+            background: #cc0812;
+            transform: scale(1.05);
+        }
+        
+        .disabled-btn {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state p {
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f0f0f;
+            border-top: 1px solid #333;
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .logo-text {
+                font-size: 1.8rem;
+            }
+
+            .search-container {
+                max-width: 100%;
+            }
+
+            .branches-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .year-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subject-card {
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="header-top">
+                <div class="logo">
+                    <div>
+                        <div class="logo-text">BACFLIX</div>
+                        <div class="logo-subtitle">الأرشيف الشامل للبكالوريا</div>
+                    </div>
+                    <div class="logo-emoji">🎓</div>
+                </div>
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="ابحث عن مادة...">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Branch Selection -->
+        <div>
+            <h2 class="section-title">🎓 اختر الشعبة</h2>
+            <div class="branches-grid" id="branchesContainer"></div>
+        </div>
+
+        <!-- Year Selection -->
+        <div>
+            <div class="year-header">
+                <h2 class="section-title">📅 اختر السنة</h2>
+                <button onclick="clearFilters()">🔄 إعادة تعيين</button>
+            </div>
+            <div class="years-grid" id="yearsContainer"></div>
+        </div>
+
+        <!-- Subjects Grid -->
+        <div>
+            <div class="subjects-header">
+                <h2 id="subjectsTitle" class="section-title">المواضيع</h2>
+                <span id="clearSearch" class="clear-search" style="display:none;">✕ مسح البحث</span>
+            </div>
+            <div class="subjects-grid" id="subjectsContainer"></div>
+            <div id="emptyState" class="empty-state" style="display:none;">
+                <p>لم يتم العثور على نتائج</p>
+                <button onclick="clearFilters()" style="background:#e50914; color:white; border:none; padding:0.5rem 1rem; border-radius:6px; cursor:pointer;">مسح البحث</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>BACFLIX © 2025 - أرشيف شامل لمواضيع البكالوريا الجزائرية</p>
+        <p>جميع الحقوق محفوظة</p>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // قاعدة البيانات الكاملة لجميع الشعب والسنوات (مستخرجة من الملف الأصلي)
+        // =========================================================================
+        const baccalaureateLinks = {
+            // ------------------------------ شعبة الرياضيات ------------------------------
+            math: {
+                2025: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1209RvOHC3UFMTdr6o5GPgHmbfHwMC1QA/view?usp=drive_link", solution: "https://drive.google.com/file/d/1ZZmCkOAuDwJ3vNF6RQSlclHiYZoLB8z3/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1rdiZ1srF43gQjXiSt5Uy4HVXrhIy5HDn/view?usp=drive_link", solution: "https://drive.google.com/file/d/1jfCkOcmhDMKXs-2mET-HnG3BgKd7QlT2/view?usp=drive_link" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1huUwbESvpkew9PdZbej96hByWeeVZDIb/view?usp=drive_link", solution: "https://drive.google.com/file/d/1JC1kf2crDxLvd52Z5aSHKztfnTc1tt5b/view?usp=drive_link" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1My0dnRDJdFDASypfoPn3NnEIdcGVHoJ3/view?usp=drive_link", solution: "https://drive.google.com/file/d/1Sjwn3Nh3c9FAD16EQsaGsvkGKFpQBxZY/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1mQ7DsO7JlIEV-wmwIkktTqPjTJfK3-q8/view?usp=drive_link", solution: "https://drive.google.com/file/d/1PmK5LsOEh-nFHHFEHmL8McKER-KccIKB/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1VLrTWpuKrNplcF2pHXiEnTPQTVSEJSf0/view?usp=drive_link", solution: "https://drive.google.com/file/d/1nm-wCvMnVHhMhfsvxlXIYui4Kzy07Jjl/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1dFU0jsUzX86xfZrEGF5EsW4uqu_h_D5J/view?usp=drive_link", solution: "https://drive.google.com/file/d/1Va3trTOh46lJxGo9bcensxApH18euN5e/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/13btnh81jiq9MethEJjjRvvEgNrb3eIlb/view?usp=drive_link", solution: "https://drive.google.com/file/d/1aRCtXmX4xDWXnaYNWYGViWitJbPPN-Qv/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1_p9hR_zNtG0yNGohy3QwuMco57MgxqiO/view?usp=drive_link", solution: "https://drive.google.com/file/d/1P6DWy6cYRgpVFCviv4Jrk81930AuFX4f/view?usp=drive_link" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1419yIYgIVNn70l_VSQ-KuCF3fIVc5CRf/view?usp=drive_link", solution: null }
+                },
+                2024: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1zZX0-1F5frTc2ZS-V6TJZHonqP5Dx_nl/view?usp=drive_link", solution: "https://drive.google.com/file/d/1dTFQEOkE0mEIJ2lLqATzblFEGU_vf5VO/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1xG3Ifr680ajkMYXlyrLZIzZbBpCrU-0e/view?usp=drive_link", solution: "https://drive.google.com/file/d/1OUWevcGcu8ukQM86VEctFKAEbdDO3w08/view?usp=drive_link" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1ZJdjUaKevajR3C1LXPtjjkMrsUOR39o0/view?usp=drive_link", solution: "https://drive.google.com/file/d/1IyMoTrSSqMIYOPfO9E8CHFH3HdkpcH6T/view?usp=drive_link" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1ub9hJwoiVUggIODudSuK4uuC_cWS_UgB/view?usp=sharing", solution: "https://drive.google.com/file/d/1cF-IkCxXtm3RZzP9Fk_MXg6KRhO8b0R8/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1chf3AUvYwTPwQxwo2PvZod2Zf36QDUzo/view?usp=drive_link", solution: "https://drive.google.com/file/d/1YFESVke9mrCM65WZsrPGP1cp9bTL6j5V/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1BxRSSvrGUHEdBFOvTAL5sbUiwYXmn4Zh/view?usp=drive_link", solution: "https://drive.google.com/file/d/1Dfd3FIk4NK80CQDb3AMzyVgs6Vx964Aj/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1-OWvUdAXTKhS_G-lt_JexCYWW7nJsbev/view?usp=drive_link", solution: "https://drive.google.com/file/d/1PcuqXLyt_jCm2LBzZD8OpbRkttVlE6-A/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1swZDRWwbv7QS2w-Z2mVuhY84QgkJnq_y/view?usp=drive_link", solution: "https://drive.google.com/file/d/1aFtq6c1qPFC9yfMgXfH1rAuCndqHEzKe/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1c9ljopU4OHudjVlSWaomOSbQRacHec8t/view?usp=drive_link", solution: "https://drive.google.com/file/d/1Vm9dWHkecELBl2zR-wV044gCMdNDDcqY/view?usp=drive_link" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1081xI39aor0tP0AjdQCXHyLJBJElU7gE/view?usp=drive_link", solution: "https://drive.google.com/file/d/1coAiZxB42HeaVKnLa4GVqHeWY-Dlcqhc/view?usp=drive_link" }
+                },
+                2023: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1b9goqo1rSyg58I3GT9SkuOj6aK4qVNCq/view?usp=drive_link", solution: "https://drive.google.com/file/d/15IWROHCgdvD6OPP71j19svXM8zdW1THd/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1yueBj966z_7PzyCEAR_D8vuz6GvubZwq/view?usp=drive_link", solution: "https://drive.google.com/file/d/14KY9ELbb5AbZM7ArTe4ek-D8ng_IofVl/view?usp=drive_link" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1kZk7UiQ6NZ9XxvdFlZtHp8woF75lOGea/view?usp=drive_link", solution: "https://drive.google.com/file/d/1Dx876ayOi5yOVxNPJmOi6nknBXE-wfMC/view?usp=drive_link" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1YApQ3VYs9IXvja6FWR87qGY4Nru8Rp_a/view?usp=drive_link", solution: "https://drive.google.com/file/d/1pGcgJY-BP1Ac7lf78oPeAl0202QtCkHK/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1tPYAd5Ks73a9i8et_F7JmM5_VoKcUFvF/view?usp=drive_link", solution: "https://drive.google.com/file/d/10Xq2MnE59gaQc0yj4vrmM8noHNyvNZjj/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1SK-xT5OPnG0AktiG3lZQgmXuAlk9HfD6/view?usp=drive_link", solution: "https://drive.google.com/file/d/1CBsh0Zcnduvu9ljPNQFC1nWlbqqL03fS/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1Gen8EX1jsZhYR-b0oeqVWwDxva_UgR4O/view?usp=drive_link", solution: "https://drive.google.com/file/d/114KlJUMBUSf8e8IJ8PchLvS03y_Y5jl1/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1C4YkG32EWqZOVOpwGSuM8tDs1vRk57yk/view?usp=drive_link", solution: "https://drive.google.com/file/d/1S55fFrHOxu0Vwp7gJKc5s2DuqgyAjCfl/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1ZlLLqlgDUQorhFrz8KjmIzfgRWtdlc2K/view?usp=drive_link", solution: "https://drive.google.com/file/d/1M-XgLd6P_ZSvhOndQplStMqe0r3G8Ltp/view?usp=drive_link" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/18tcK8_lFxrFEy1fVHjmFTY59jdASsecX/view?usp=drive_link", solution: "https://drive.google.com/file/d/1KneFR_rznDtH7wY337XuH8Hfn48e8-7c/view?usp=drive_link" }
+                },
+                2022: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1oQqlSH_huKJMwuUt1R-eOu2BBVfWyOSP/view?usp=sharing", solution: "https://drive.google.com/file/d/1mu5rW6rPtwOR8kWGctq_CZuQNNEtvj2O/view?usp=sharing" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1sLFmw4bxc8bzJLrf24xJUPuZSywoKt6U/view?usp=sharing", solution: "https://drive.google.com/file/d/1D4WWdzCQFqizS7Vcs86TP4RNCIq-hKsS/view?usp=sharing" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1-SjeNUnyJEUkTWeFt2BovPyA9W9GPANP/view?usp=sharing", solution: "https://drive.google.com/file/d/1R4WR9HH_W5Q2F_LaAjlHp6NRb3Z8p-0Z/view?usp=sharing" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1nMdJWJIl7DDjE8CQ040GS5Pn7x45TN50/view?usp=sharing", solution: "https://drive.google.com/file/d/1VSEcH4cD8AHhgmYQ3VzK0QZfGk3SLw2P/view?usp=sharing" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1ZLeOTNG7nSAA-MMZdJZsK5QnLyLraA6D/view?usp=sharing", solution: "https://drive.google.com/file/d/13KD_zMVJ1UowMjhLzDGC2HhCEbKuxKtU/view?usp=sharing" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1sRJTefAwjJjp_55DKa6IhibeHK8TTWvM/view?usp=sharing", solution: "https://drive.google.com/file/d/1G9v_1_IuYAtJ0qEqLXCej9wnXMbG-hyo/view?usp=sharing" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1oPbSqyJ3--Q4gMQSwRPIF2KpRnH6vgIN/view?usp=sharing", solution: "https://drive.google.com/file/d/1AlPb6Y8pxyuIpepEJ_Aad0Nmcb3azqB6/view?usp=sharing" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1jyf2Ny-f_-U8CfOy6GQ4dfu0HAKv_OnK/view?usp=sharing", solution: "https://drive.google.com/file/d/1dPaGJy5aJtxy6HWCXYWu-s_yQqAcpo2B/view?usp=sharing" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1r01G_SMJzdO3mHSi-wqX-gmf0UTcrjRk/view?usp=sharing", solution: "https://drive.google.com/file/d/1r_nLjXuJfnoXBEP5D3F3nKTE7kxxDbtK/view?usp=sharing" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1Wpo3zLPw7SxJNHq1VEGT_TvZjI_EWZ6i/view?usp=sharing", solution: "https://drive.google.com/file/d/170xo2h_yC1VMHBKnoFVs-fNk8Su8VH_6/view?usp=sharing" }
+                },
+                2021: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1hNhBvw7Ta9gVN8T8XYXehWNfJ2fvi624/view?usp=sharing", solution: "https://drive.google.com/file/d/1kGGJ_CHU-Fw4XZJR_42zbnoYnFgwBSaA/view?usp=sharing" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1O_MU4mtoCZUqykNoTQGUCRHtzy05_zOB/view?usp=sharing", solution: "https://drive.google.com/file/d/1ieaihkxsYbh5-Id-mkPIbzT2uOmh2Lg-/view?usp=sharing" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1tVPu8I3I4qurC-9fHMvdYEOAIH3F821v/view?usp=sharing", solution: "https://drive.google.com/file/d/1-1SWlL_NiJTt7xPdROTgdIcECuF_EiW2/view?usp=sharing" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1fSjhJcd5N6GuRNLwyhS_OIeHIk31rY6c/view?usp=sharing", solution: "https://drive.google.com/file/d/1Dm2Ll__Oo1Ou_GH8Y6wiEiQWkjc0YvIZ/view?usp=sharing" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1QzZZAX6FWpDmkxygXSG_4NxYmZ_gll91/view?usp=sharing", solution: "https://drive.google.com/file/d/1indsM8JNX0QxInSfT9eZapn8ApRvSw_0/view?usp=sharing" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1Ven3kJ87SphuGao2J0OjdIzaQCNosAnW/view?usp=sharing", solution: "https://drive.google.com/file/d/1laYxlnow6CGqiVSsQX6_0BpKcSIWFKNN/view?usp=sharing" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1DQb0tNHUGlWw-QWQHP5X-kp4FkRmQ4qp/view?usp=sharing", solution: "https://drive.google.com/file/d/1KErBNUcFlLXmE9-5XTnqWGjouT5gRNXe/view?usp=sharing" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1va1Psg7s4X3rAn_18QUNONfI4hOYFx2C/view?usp=sharing", solution: "https://drive.google.com/file/d/1De5Z0Rj3INiA0iJM23-XiJrqJoWUMR_a/view?usp=sharing" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1ygN7Z0RN0dQ4rfwWJhsFQrf_2oLviAU3/view?usp=sharing", solution: "https://drive.google.com/file/d/18dcfgfAZ44NjSAkzu1N0tKuSLmRg9Vlo/view?usp=sharing" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1f-4UMOFPWLNwWjWyNxR4BVPpu180Whf1/view?usp=sharing", solution: "https://drive.google.com/file/d/1IdBvD3EMteHicnf2afTswbWTIPXZhOgT/view?usp=sharing" }
+                },
+                2020: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1Nhu3OCdRvaYhS_ypXHzeQbxiirnU6K2X/view?usp=sharing", solution: "https://drive.google.com/file/d/1DnOv0MpbsspWXaN0aBPdr1Ck-lQaRxiQ/view?usp=sharing" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1-x4SAjdohDIoa5ctv3NDFQfph_rPlf-B/view?usp=sharing", solution: "https://drive.google.com/file/d/1Y7JeJAx3X6q7AktO1buvMApsUve6yL0_/view?usp=sharing" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1qpihAe0Idkw0Max0S4MjS69R97vUhvQD/view?usp=sharing", solution: "https://drive.google.com/file/d/1NhBBg7uo14oLcX16_Z-JhT3Ez-GgMnuB/view?usp=sharing" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1MoknuCfzB9UXOP0WBiJH4_EPYqEyxber/view?usp=sharing", solution: "https://drive.google.com/file/d/1us3ks9TG_OgEfWVRWpy_VBizyLRMYQgZ/view?usp=sharing" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1RjROW9eNEt6UQKlSJAgPqKp0kypVbNtQ/view?usp=sharing", solution: "https://drive.google.com/file/d/139jfwGa_mLajnFetUOYSbC6u2Wh3BCY6/view?usp=sharing" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1GLanFyYZSMBG1DdqLO1Qr4XqHWZdCZRN/view?usp=sharing", solution: "https://drive.google.com/file/d/1dPSfC4b0-11IL_dBQU05rddFRM1EjuZB/view?usp=sharing" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1y9S_sRepHY6DoyhjoRlKRIN4ayzagcsG/view?usp=sharing", solution: "https://drive.google.com/file/d/1jIFFei4UsJelAWpOngmTpSDrcbmEk0P7/view?usp=sharing" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1gw5CBE07nWybGJ8C8VlkvMfqvgDS6OqS/view?usp=sharing", solution: "https://drive.google.com/file/d/142FqybF9pTTtfgKqTTdsGGnhJ6hMQamg/view?usp=sharing" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1cfu6siACSKtf7nP4vWPzLVeII3TswJVT/view?usp=sharing", solution: "https://drive.google.com/file/d/1HPdputBAmi-43i-7F2lxXVUa4cMfxRBd/view?usp=sharing" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1Wfdi-BvrpFu2yHZNuDFHZ4NtlatHnQCo/view?usp=sharing", solution: "https://drive.google.com/file/d/19NQrJw-yhlcVmNnbJmQh3oPaD9Gn8Npw/view?usp=sharing" }
+                },
+                2019: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/open?id=1BF8RQk4G18jx9GwU4dv00ozKf5A0GsnK", solution: "https://drive.google.com/open?id=1Fe7y0aJR_tZvHKZ2ZkOsfKAPoku8J6El" },
+                    "الرياضيات": { subject: "https://drive.google.com/open?id=17kGAaxVwxqKdTq40_anWok7Aqhn9SSzI", solution: "https://drive.google.com/open?id=1eZBQxm-isg4z4zHqNQFj21itH1RHaDSP" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/open?id=1vH-WVKw4pkOUuZuwpVdgZEhnSGsSQ6rh", solution: "https://drive.google.com/open?id=1NLVRDW7QGzN1UCHTVaj2VYoVM3hKtD3H" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/open?id=1XAAe3NENWrhuyU-fpjjy9a-iFbNCJrUp", solution: "https://drive.google.com/open?id=157QKUGZ7CU9ZA7MQ5FLqfdVQ1V_Z5Xdy" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/open?id=1m7MVQNTjTKnsCv4c7GaIkLxxAi3ie3FI", solution: "https://drive.google.com/open?id=14Jn7OSz61nsxHALV2WJ3N9uBHJoapWxn" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/open?id=1Oy1JRCTNSgnF5m9CrnqwKA6Zbj6hixca", solution: "https://drive.google.com/open?id=19rwlMUkrfq9TVwi9gZEJB0prh_u3hBWT" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/open?id=1pnHf_AasJik9GG7PGfu3J7zotginRI_Q", solution: "https://drive.google.com/open?id=1HdXyDErVwtl6Z_4DetfVRMzcMbCZdD4n" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/open?id=1LcmQ7YUBBs2l8l2WKPp8sDonakuPLrYi", solution: "https://drive.google.com/open?id=14DFOAKc7VuRwyfhLfUy9Om25t0xbUv9Q" },
+                    "الفلسفة": { subject: "https://drive.google.com/open?id=1sBmwnXOpFM5bj7qmdvTIE-22LBIKOnMG", solution: "https://drive.google.com/open?id=1RLpjLrcvaJAWbMRW8cYJ89BQgO2jJV9U" },
+                    "الأمازيغية": { subject: "https://drive.google.com/open?id=1NhGDO-l2VM90HFC3Qgk12gnb0ddZNcQi", solution: "https://drive.google.com/open?id=1ICrKHGHyejLguDKufA0NydI_C_0ciGZq" }
+                },
+                2018: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/open?id=18XmDWewgNQ3O3JaL_1txuFhF5BkLpjPB", solution: "https://drive.google.com/open?id=1S5WgxUNPrVyLZ9IZnvN91o8XklaOOJ5y" },
+                    "الرياضيات": { subject: "https://drive.google.com/open?id=1zAqFN6L_qmlkZ1goI0kSLEMmWB-x4Ifn", solution: "https://drive.google.com/open?id=1zzrJNje-uYqvvGkwr-UR8rBq-Hri5CR6" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/open?id=1oo10uH4qsWUB34JSyX9rzIyCdiZgmj56", solution: "https://drive.google.com/open?id=1aSndpEX0yesuT4FCkK6rK0vQcfo5nsUK" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/open?id=1KPjRGOAPH14_iniXkEMdwum0ny-tx1h5", solution: "https://drive.google.com/open?id=13zcdzenZoph-rSHfDcZsYN1TdUNoY2qg" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/open?id=1FB9TIX2rYyIyRKedr0opEZuutcjlPkWO", solution: "https://drive.google.com/open?id=1nIiD4xVG-j7XnSA4yg95FHlCRvX0rdJW" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/open?id=1mMr-2v2wy2FUABL49SI9lgJ7-UmHFQpU", solution: "https://drive.google.com/open?id=1D6ZLV4iQ9zjdWpdM7AVO0bTJwchLD9QD" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/open?id=1X-mh4iyBOAsCFmX8-jfv6wgtAFdZ4lp0", solution: "https://drive.google.com/open?id=1SG9BAoOTx1WFTvpP9r6Yyh47TvwtaVzn" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/open?id=16euBNgJ6RCUAC5tWljjBiwTt1F3-xyiK", solution: "https://drive.google.com/open?id=1npvWrvmkv6vqRJYUJjNauqgjbjyIoO6Q" },
+                    "الفلسفة": { subject: "https://drive.google.com/open?id=13GGl51LJJO5B5T8UpKlzi6_9GFpGdhB3", solution: "https://drive.google.com/open?id=1u0p-ol1AdDTgWx8GaU1cl092_iG_O03n" },
+                    "الأمازيغية": { subject: "https://drive.google.com/open?id=14bEuCk01Us4jo384M7ra6zsYSu9d4TzG", solution: "https://drive.google.com/open?id=1feVoSS17A3l_BbHpaHmBpcIabxPVIlc5" }
+                },
+                2017: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_ar-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_ar-2_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_math-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_math-2_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_physiq-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_physiq-2_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_science-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_science-2_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_islamiq-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_islamiq-2_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_hgeo-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_hgeo-2_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_ang-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_ang-2_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_fr-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_fr-2_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_philo-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_m_philo-2_s.pdf" }
+                },
+                2016: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_physiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_hgeo-1.pdf", solution: null },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_ang-1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_ang-1_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_fr-1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_fr-1_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_m_philo-1.pdf", solution: null }
+                },
+                2015: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_physiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_m_philo_s.pdf" }
+                },
+                2014: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_ar_s_.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_physiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_m_philo_s.pdf" }
+                },
+                2013: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_physiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_m_philo_s.pdf" }
+                },
+                2012: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_m_philo_s.pdf" }
+                },
+                2011: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_m_philo_s.pdf" }
+                },
+                2010: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_m_philo_s.pdf" }
+                },
+                2009: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_m_philo_s.pdf" }
+                },
+                2008: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2023/01/bac_2008_m_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_philo_s.pdf" }
+                }
+            },
+
+            // ------------------------------ شعبة العلوم التجريبية ------------------------------
+            science: {
+                // البيانات موجودة في template الأصلي، لكننا نضعها هنا كاملة لضمان الاتساق
+                2025: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1uZOB48e37f2GSM5JBdbul1Q4hiwVs10i/view?usp=drive_link", solution: "https://drive.google.com/file/d/1ApBh98oXQOS-LqFjUQlw7Jo6g2lhUBIO/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1JX8A_TJF3wH_yAx9xkhhYuhpZ2sQtHua/view?usp=drive_link", solution: "https://drive.google.com/file/d/139xO8wDM-QVcKM9zEC3tFaBdxPzlLD7y/view?usp=drive_link" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1BxfWcwvzgzfCzOHJFhRKzq-eKq8riUhc/view?usp=drive_link", solution: "https://drive.google.com/file/d/1JH1a6XSPAhr4hhuhYtFJ5KZgR6LX9QIQ/view?usp=drive_link" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1MmonorBCtsTSSg9R8KdfmLg5PwEN3DhB/view?usp=drive_link", solution: "https://drive.google.com/file/d/1bigQLEXyzZ6u5PK_NypPkQbV705x5FWu/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1x8quuBl-WzYy7aGg-1uuNgtsnUz30cvT/view?usp=drive_link", solution: "https://drive.google.com/file/d/1hf6A7JrIp9BoAdDdDL6fV6hxqlyHAiGV/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1AholWJ4ZcwiukAlfjhvRFvVpsuudIDRC/view?usp=drive_link", solution: "https://drive.google.com/file/d/1WLqAHQspPSAC0hO5op36QXw_-dCSoUZi/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1dWbrLL2J06yOSABVWbriA9TgV-gQvYkD/view?usp=drive_link", solution: "https://drive.google.com/file/d/1RC_YIR4SVAwaNppFo-_nrdh4YJ8eV2Cx/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1SNOSVR-Auvo5C4rNirbRD7fG4fVKcVP_/view?usp=drive_link", solution: "https://drive.google.com/file/d/1eSFxHxXui7tLNkuaYATnySjvNoG9WqcG/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1XNqZpDGNRYOKp8APz7LLgpvDiINx3VyT/view?usp=drive_link", solution: "https://drive.google.com/file/d/1AJfybu-XeaM6nMqhlLy-nrwDh-p0CKH9/view?usp=drive_link" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1419yIYgIVNn70l_VSQ-KuCF3fIVc5CRf/view?usp=drive_link", solution: null }
+                },
+                2024: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1Uww-cD5ah-btI6FSPwio7mdPEAu0rjeF/view?usp=drive_link", solution: "https://drive.google.com/file/d/1khO_WHvjp5rp-LFNFJMdq0A2HzNVinGa/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1XCAUstVMMkdmu6StFJxiXh8RJ-_DcLZm/view?usp=drive_link", solution: "https://drive.google.com/file/d/1OPIIdklyg2kEx84f7ChUfbk7ovadoKQ5/view?usp=drive_link" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1iTQO8905efL44uIlGlA7nRDwFfh9cJYv/view?usp=drive_link", solution: "https://drive.google.com/file/d/1IkaFlclam4CfidzP9BO35IgxLMBlDRTE/view?usp=drive_link" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1FBsGWjWluLfxF70OZBVB6x9j6HIVjBY0/view?usp=drive_link", solution: "https://drive.google.com/file/d/1tKHRp6mIqYac2OMoEXzf1n0fzsaQnwJR/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1VzxjfBpJiw-0i44n5rJp7VvpuJew2vF9/view?usp=drive_link", solution: "https://drive.google.com/file/d/1mcZtcjclk_CMPcByCf5ac40EiKVSpwz6/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1I2jwNDpjJEbYSTNc9Aq7K6h3ajuz-byI/view?usp=drive_link", solution: "https://drive.google.com/file/d/1UK7aozhunedyYxqrQo7GYE8oiiCCLtU6/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1RT7Yu-4k7DWnX8pvBjRzEmLdVt82V-W1/view?usp=drive_link", solution: "https://drive.google.com/file/d/1I2lSMlFzf2RI3dERvBh1UUoFrTnNXiMk/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1BUvkBJdelU02SVEo51PWY3XGYgwBxEws/view?usp=drive_link", solution: "https://drive.google.com/file/d/1O3N0sIkHyDEHvxS08pQ-jrvP83A-P5TK/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1jAV6WmCao_9az5br7tMmTPE9XuN0j7N8/view?usp=drive_link", solution: "https://drive.google.com/file/d/1vcXDbI5VVMK20peE6jj2DYGFpz0X8E_7/view?usp=drive_link" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1081xI39aor0tP0AjdQCXHyLJBJElU7gE/view?usp=drive_link", solution: "https://drive.google.com/file/d/1coAiZxB42HeaVKnLa4GVqHeWY-Dlcqhc/view?usp=drive_link" }
+                },
+                2023: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1AZ8qZRrxkeiZAIXAO0Gr-V5plzSe0y25/view?usp=drive_link", solution: "https://drive.google.com/file/d/1GA_U8gwfKby4I-XWbOoff9-ThrEnck45/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1qsmCaEDPoxGT1Gm6v1wTM9rS6FaZkufd/view?usp=drive_link", solution: "https://drive.google.com/file/d/1pHH9Va9K_e14WvXSuhu5AZfF2_eIExSs/view?usp=drive_link" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/14SFN6a0idgpISztUpwFQ0BlLcDJAE3Tx/view?usp=drive_link", solution: "https://drive.google.com/file/d/1nxleRSYI_n0fqlcAMG-bWc1DyYN7bBIU/view?usp=drive_link" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/10iWdXtdok-ggR_XT8Af61PN1j13P0rs-/view?usp=drive_link", solution: "https://drive.google.com/file/d/1OSyGoBnP7ZxrCH-FkPI5UhyBluLrX5Fp/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1TDd-8eBEjox28akGH2ph5S5EGSXnXUdS/view?usp=drive_link", solution: "https://drive.google.com/file/d/1ly6ytfbXc8fhyGns20JgzCn4rXZkWgOC/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1l1nLVworlHDVD45thlNbE1N_agdqfztr/view?usp=drive_link", solution: "https://drive.google.com/file/d/1ILyr8eAZeFajZLLo2g6sNbb8gcj6NeSL/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/12GarycQjj3Vace3CZoc4HuFVTEEdSFyQ/view?usp=drive_link", solution: "https://drive.google.com/file/d/1HMbdrSC2V-0AvpY1iGIJFNl3d8oLC1GY/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1hs0Db1YfE0YGsVqgGUCxpYJcuaAtza3u/view?usp=drive_link", solution: "https://drive.google.com/file/d/1eBWADG3YWrgb3xVzpUwJF3qhweNDCgsj/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/16w7gW8XK1cWZc3eh1WrMAqPr0Ou7mLF4/view?usp=drive_link", solution: "https://drive.google.com/file/d/1-57lXIH-aMAF62ydTEQee-r9idHu2Bi1/view?usp=drive_link" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/18tcK8_lFxrFEy1fVHjmFTY59jdASsecX/view?usp=drive_link", solution: "https://drive.google.com/file/d/1KneFR_rznDtH7wY337XuH8Hfn48e8-7c/view?usp=drive_link" }
+                },
+                2022: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1naYp0-THmZv_sPTKeuM0OaLzpSiunxyF/view?usp=sharing", solution: "https://drive.google.com/file/d/1i4KUPtjUz2j1DnsGpCqa99JYwBwOx190/view?usp=sharing" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1rTgg9skjgrcTKeazwkk1JDSU60yHiFaC/view?usp=sharing", solution: "https://drive.google.com/file/d/18osdUeFEAsCWoeitlJnRiUwMYszOLd6i/view?usp=sharing" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1x7HycAJYCqrP5atjb-AVWIa2hElCjeig/view?usp=sharing", solution: "https://drive.google.com/file/d/17c7ka4mmfxKYxLxteVN9BIrMFMn6BANR/view?usp=sharing" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1oZMc903Sgoi746dIHskb4gvr_Z4HBQhV/view?usp=sharing", solution: "https://drive.google.com/file/d/1WmqxUpFfPdP3bOa0xor1qFIQKF-zKW98/view?usp=sharing" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/11rSolndw3zJE8ZFX0FcAK1SnH5pflNR2/view?usp=sharing", solution: "https://drive.google.com/file/d/1ps03KQb316Ev4tk9h_w6n3rrbH7Qz6ft/view?usp=sharing" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/15ENJof1MoU4y3rkgs29yHFjlwAnTk2fG/view?usp=sharing", solution: "https://drive.google.com/file/d/1MOGk5DNiHospo5oLx53oWACg3c8rXVTF/view?usp=sharing" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1joi0TM-rKQRpy9sqVxOtEoKQXSFkkOQ9/view?usp=sharing", solution: "https://drive.google.com/file/d/1wepDBf-4eW5Y70W7w2jwikG-Mg9826rz/view?usp=sharing" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1AsTTwDGLAVujIVPR9jMSXzVxHTTgWvT4/view?usp=sharing", solution: "https://drive.google.com/file/d/1I5zXpac3-Yr1nZuu_WYJTwGO7MSrYOdn/view?usp=sharing" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1zlcIgGOTxdsQch9vaDQp5vHdHXhrTFSl/view?usp=sharing", solution: "https://drive.google.com/file/d/1RGoy9zns5J3PXZncCnV78Uo1ZJeGTdHF/view?usp=sharing" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1Wpo3zLPw7SxJNHq1VEGT_TvZjI_EWZ6i/view?usp=sharing", solution: "https://drive.google.com/file/d/170xo2h_yC1VMHBKnoFVs-fNk8Su8VH_6/view?usp=sharing" }
+                },
+                2021: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1e2RGpaDd8-msP4MhsBf3VJGj_bSwnk3j/view?usp=sharing", solution: "https://drive.google.com/file/d/1Khh5udAtTNbWxMHlGjxm7Mno4KofZcUX/view?usp=sharing" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1GYIUe1Bh_d6gMEN3xYs1bJeQ3-5ruZwa/view?usp=sharing", solution: "https://drive.google.com/file/d/12vwTab6tjv2vDJ5bG7AvFpf9OQk-lXRf/view?usp=sharing" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1LTuWcYrvX9upQK87RHvGyiTDn5L5KWDW/view?usp=sharing", solution: "https://drive.google.com/file/d/1NqeNIClIUremzclnrykkqVT-HtmkoPjn/view?usp=sharing" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1v4SuiqkXBH7SXxUrN3ikcQPcD47o8HSy/view?usp=sharing", solution: "https://drive.google.com/file/d/1iFyQX0XKqXBj9X6Zr3sLW3d_x-haY5F0/view?usp=sharing" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1TtVW8vjxBkCC2YL3Qb2IMg999Gs9VPLz/view?usp=sharing", solution: "https://drive.google.com/file/d/1PqF7h2ZQGdrLCEXihwRgFKRz2Y7BTNG5/view?usp=sharing" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1xIYatFENP7fDCHIM9bbLamjYFCKjXXV_/view?usp=sharing", solution: "https://drive.google.com/file/d/1l5oKpBZx1Ee4XERM9eXHM5DygucNqoVL/view?usp=sharing" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1bYtsruzBWocH2zdGJ4vbSq6A6yRb3aQG/view?usp=sharing", solution: "https://drive.google.com/file/d/126T-itWpjC5oBYbppkGmaX6Rb6g6egCg/view?usp=sharing" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1afSbwYsVer8WikCNdO46mgDbczx52f9n/view?usp=sharing", solution: "https://drive.google.com/file/d/1i23qXIsQ8TXzgiw8wjj6lMywghZXns6k/view?usp=sharing" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1_1__XH5Df8s53ayFg8bvL7trOkQEyVx9/view?usp=sharing", solution: "https://drive.google.com/file/d/1AmopWnMwxFQ1OGDETOgaGukiM8tekADF/view?usp=sharing" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1PZOwaR27POr1tas0hTXhQJxAojChn989/view?usp=sharing", solution: "https://drive.google.com/file/d/1TpRovpkYvhNhz2z8TPAVUSUF0uFf2foK/view?usp=sharing" }
+                },
+                2020: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/18a7lhiVBXAur9Hy5xoL65k9OogSiilsO/view?usp=sharing", solution: "https://drive.google.com/file/d/1b2dx3r1qd86hLpsWeR5AGlJMNyqr1cM_/view?usp=sharing" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1aA_9DlqNq1Yud8S6RSlvEiF4GuD_NeWZ/view?usp=sharing", solution: "https://drive.google.com/file/d/1DxlNkBpDLFI5FzhOv-NQ89VA_eLRC1J8/view?usp=sharing" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/14iU8BQJ-mM2W20qQoIZ52iDic_EVtllO/view?usp=sharing", solution: "https://drive.google.com/file/d/1C3SfcJeuQqxTzDQ5rzdWRMgnx3Q-DIM8/view?usp=sharing" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/file/d/1iZ0qlFWus07-M7qaKLKwLaYPdc4zS2k_/view?usp=sharing", solution: "https://drive.google.com/file/d/1pzrNJSQSjL6WkURF_fj7TN92ucPXAIEg/view?usp=sharing" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1kGsf1sHX-njSE5FpvTPtNYynCq7HZFB8/view?usp=sharing", solution: "https://drive.google.com/file/d/1jVjmGIX92gY0XSqNBtJWDx05hMzsnj6F/view?usp=sharing" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1zOBIPW8LafD7U6-d-_WNFH-POQ2j2Y_6/view?usp=sharing", solution: "https://drive.google.com/file/d/1pKQPG8citvaT5_48A71fGFCkx67uQ_y8/view?usp=sharing" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/18AXtJkpMWvx0OT3Djw0ySc7vE4g3f_8x/view?usp=sharing", solution: "https://drive.google.com/file/d/1ub72kNB3RVfEzpJlM00KpxOmILBbe71Z/view?usp=sharing" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1AeEoN9MeIqiFYNlQvOHrpjBrZhDr0izj/view?usp=sharing", solution: "https://drive.google.com/file/d/1H9EimAT8MMTQH7IstiRbv-Jj3G9AyHA9/view?usp=sharing" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1ILzNMeodlQDf8hrDB5Kyzd-JPKnZ217v/view?usp=sharing", solution: "https://drive.google.com/file/d/1qO0LgjCwwbfrrOdJDI6BwE8PhaDnU24D/view?usp=sharing" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/17517VCUitTRNfgNNIqPuiR8kc6Fn7csO/view?usp=sharing", solution: "https://drive.google.com/file/d/14pWPs5YR7tmgQw99qNdj0yaEHWbNSb2H/view?usp=sharing" }
+                },
+                2019: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/open?id=10FhpWGZTUEWxUpQXh-YUjHGX6SOrrrRL", solution: "https://drive.google.com/open?id=1sO3nC_SXzOgU753-8cu5j4zjQy4TOYsP" },
+                    "الرياضيات": { subject: "https://drive.google.com/open?id=1DqOqhioyYuq-nF4P-257FOQSeGpCVTVb", solution: "https://drive.google.com/open?id=1jRXFxARSSaCRYJCDGIVsNasFTBwvWOYK" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/open?id=1YSx4IP8zr3XococgT81NUM3bZgR-cHlC", solution: "https://drive.google.com/open?id=1oxrlsPGOgJaRPveyPoMqsv-_0Zoj1M65" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/open?id=1meKHT_ThryKSUNE3EK0Od0PGoCYSszTK", solution: "https://drive.google.com/open?id=1cmcePj2SURwkqAwkPk9ES3LqdhNg3u1K" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/open?id=1RanSfRg40to5avMOPZ71XSUoMN676aDC", solution: "https://drive.google.com/open?id=1Yn9dF1r3_cW1RlDwmez_t2tD-qC93O9v" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/open?id=1iIzq8ndi9hUSQnm_nzhZTJ_eNdYctTOP", solution: "https://drive.google.com/open?id=1y0igNfW11WFRYZ8KTzraT4F2xrAbA7gs" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/open?id=1NJL_SNRid6YyN8DSrm5tertPVn6j0ihi", solution: "https://drive.google.com/open?id=1-OqzvhTdqHNc2djupIEcmGa1UeHVJ3tJ" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/open?id=1yn8-ibMnsw2nVcoHri9iTdWz1if8lYgr", solution: "https://drive.google.com/open?id=11fn_SFF1ZT0e8tfy7WvwEMAWHdnh-l0D" },
+                    "الفلسفة": { subject: "https://drive.google.com/open?id=1VUvAaB9pCMnxDsHb3p2Z5LGBEk9tyVNW", solution: "https://drive.google.com/open?id=1nBfpL0bSDSc3I9Fcb2PI5BnrTHZkDsJo" },
+                    "الأمازيغية": { subject: "https://drive.google.com/open?id=1NhGDO-l2VM90HFC3Qgk12gnb0ddZNcQi", solution: "https://drive.google.com/open?id=1ICrKHGHyejLguDKufA0NydI_C_0ciGZq" }
+                },
+                2018: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/open?id=1HSyT7KejRsPNi_ETVZc3EHlDGkITWp2Y", solution: "https://drive.google.com/open?id=1efLHthP8bydtbzqlpKpHONJF0gpm-3IX" },
+                    "الرياضيات": { subject: "https://drive.google.com/open?id=15Ks27Qsjq9qYCL7evHHB3q5HYbrQOga2", solution: "https://drive.google.com/open?id=17gksNl01ZBNlXlgcZgvzkHgO9Tt9q5GO" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/open?id=1RvIuF324C97POGLyi3jcHkC0rlbViKFZ", solution: "https://drive.google.com/open?id=1UdeOBWpbVF8ETrJeJ_1GBuvM4KgKtc-z" },
+                    "علوم الطبيعة و الحياة": { subject: "https://drive.google.com/open?id=1jm6wqVxmKsAwzO_BH3OsPxw_ohD7kqHb", solution: "https://drive.google.com/open?id=1YVEb0p2EutwU3ZR8g3c9jLHbdjIvbrSf" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/open?id=1vrxIPDy0Ocmh7jerpjmYynNQouR9hpAx", solution: "https://drive.google.com/open?id=1wpJrtynWzfCfcNG45IQxCBNzDVp05IVI" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/open?id=1CnJUq_Lp-HvF5-NBUBRKSFJYZRu9bgYU", solution: "https://drive.google.com/open?id=1jFhpSFrgu8CACUFxzG2R98HBmFovyUWj" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/open?id=1Puh7N2ph0dRBK7BAxfxr9EqMrJpDLKHl", solution: "https://drive.google.com/open?id=11O7ycKa8LKcstPXtiavvHzXQQJkpLrEz" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/open?id=1bzLMWV-DxeQDI8CkKgtqW0BMAj7wxcwC", solution: "https://drive.google.com/open?id=1yORR1CAinDBSqAwCh7OvojpT0l4APgaW" },
+                    "الفلسفة": { subject: "https://drive.google.com/open?id=1gJQuNrTXGkgSR6cS_256zfwfFVTwkDM-", solution: "https://drive.google.com/open?id=1zP774rFdc9zyb1BX2cyHjjTCj0pv4U6i" },
+                    "الأمازيغية": { subject: "https://drive.google.com/open?id=1DrJTxgxVpNyLBmS1Z6tmUWMBTw6u4HMy", solution: "https://drive.google.com/open?id=1RlC65v569KEoKHRYjXdrFeJtGS9L17Sr" }
+                },
+                2017: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_physiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/09/bac_2017_se_philo_s.pdf" }
+                },
+                2016: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_math-1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_math-1_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_physiq-1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_physiq-1_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_science-1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_science-1_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_hgeo-1.pdf", solution: null },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_ang-1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_ang-1_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_fr-1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_fr-1_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_se_philo-1.pdf", solution: null }
+                },
+                2015: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_physiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_hgeo1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_se_philo_s.pdf" }
+                },
+                2014: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_physiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_se_philo_s.pdf" }
+                },
+                2013: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_physiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_se_philo_s.pdf" }
+                },
+                2012: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_se_philo_s.pdf" }
+                },
+                2011: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_se_philo_s.pdf" }
+                },
+                2010: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_se_philo_s.pdf" }
+                },
+                2009: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_se_philo_s.pdf" }
+                },
+                2008: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_phisiq_s.pdf" },
+                    "علوم الطبيعة و الحياة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_science.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_science_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_philo_s.pdf" }
+                }
+            },
+
+            // ------------------------------ شعبة التقني رياضي ------------------------------
+            "tech-math": {
+                2025: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1-gosYQJ4Gdl99elp8pJVx585BsVT9hy_/view?usp=drive_link", solution: "https://drive.google.com/file/d/1_RgqMs7mbCDMHyt8X_u9XtMUWAtwQVUX/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1ceM0m5sABd1K5aDSsb0-_BUf8J7nOEIU/view?usp=drive_link", solution: "https://drive.google.com/file/d/1B_Ajro1goGAp9s2TLa3hWHe3yYmc72KY/view?usp=drive_link" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1BN04zzFAsohpC9YpENzo0fA3q-QmPAXU/view?usp=drive_link", solution: "https://drive.google.com/file/d/1JojuAkdX5Uj-7m4KGmiQrm78HBJaq-Cs/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1F0-ETVuF_k5pwuOHeZikRzBRECqyob5m/view?usp=drive_link", solution: "https://drive.google.com/file/d/1xqK5jmrToXrxmEk9b_urDEwe3y9j3q_9/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1cv9VhSNdYAAuLcLHl4zwq1lM6xFzoEEC/view?usp=drive_link", solution: "https://drive.google.com/file/d/1BYLsHd_WtFZsay6i8OzDf54rB_aW5LNb/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1HtpcqV1cv3qJ982-iz208EtZLttO2YSf/view?usp=drive_link", solution: "https://drive.google.com/file/d/1bZTsUmOuP3mIpmwlNcLnamgum9jjTZdU/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1GChITwaH9zTKRFuH2YoQfYtS6zx-Tooj/view?usp=drive_link", solution: "https://drive.google.com/file/d/12XajqufNUOAAeioJsPBXZjZhnG0ABs4Y/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1AzTA-m9MSdFp8-zsLZO4EkAft36cP25w/view?usp=drive_link", solution: "https://drive.google.com/file/d/1C50BpVIGxBs0WgfOuuL-nMem84z3efnY/view?usp=drive_link" },
+                    "هندسة كهربائية": { subject: "https://drive.google.com/file/d/1kIYgClLdu02QRa5n5iESZDNu7HJL8E4j/view?usp=drive_link", solution: "https://drive.google.com/file/d/1jA5suSEPKv_UL4J7qkZ1oPmBWOx3rx66/view?usp=drive_link" },
+                    "هندسة ميكانيكية": { subject: "https://drive.google.com/file/d/1p4m_pDOLSVICnpbA-rqQbyKDowB2LU_-/view?usp=drive_link", solution: "https://drive.google.com/file/d/1g324VmLockKxx7iotCInpIKD-uVKMAAX/view?usp=drive_link" },
+                    "هندسة مدنية": { subject: "https://drive.google.com/file/d/1LC_eOHh8R9ZfgZ0oR0wzcma4a_hqgP2l/view?usp=drive_link", solution: "https://drive.google.com/file/d/10VyFNQ6_Sv9oJIqR8XKrsNi0V2KiCcJ6/view?usp=drive_link" },
+                    "هندسة الطرائق": { subject: "https://drive.google.com/file/d/1i7dIpIkPf5VLZ3eGoKV8itUCukBX6ZEw/view?usp=drive_link", solution: "https://drive.google.com/file/d/1AGzZOs90SMbLw-CNRpOWomX_z2LKJGRt/view?usp=drive_link" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/18tcK8_lFxrFEy1fVHjmFTY59jdASsecX/view?usp=drive_link", solution: null }
+                },
+                2024: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1JunsfkMPE5vBhDf_gKcbrp2GaWXbXh6h/view?usp=drive_link", solution: "https://drive.google.com/file/d/1yTmyGzjSJij1FxdoZBxD9BL5xnJsEQ9W/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1-tv1F24kiGrmFDeCsMtHDMfy_XWdyzG4/view?usp=drive_link", solution: "https://drive.google.com/file/d/1TyMulU06Jiq4V6OxviqtWRmnKH3SH91N/view?usp=drive_link" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1wV_eEK8HdG06gdN_cNDivOQ_MEdXK9NR/view?usp=drive_link", solution: "https://drive.google.com/file/d/1LcA4te3q_FBs7e_dgqg_E16M_ld1JJWv/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1RwpwJlo56cTjg68H_aIokVSEwRIoA7-n/view?usp=drive_link", solution: "https://drive.google.com/file/d/1ZhO496dM_dqPw01aTT9s9SAlrlfdO9Ca/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1fNbyvH4ohQ-yykyMFA59vDlbqxoUQiNC/view?usp=drive_link", solution: "https://drive.google.com/file/d/1xxwAZbjZZvYvo9NCmk9_dlWghtZzAYSE/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/16oeZxtnMtRSMRaQwBrebVJDR3rfJKfXK/view?usp=drive_link", solution: "https://drive.google.com/file/d/1pPJyRF8vkwz8_rijUnNiHzehR6jjf0Hq/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1rIKC1WC9NHyLktaO1UqavyPE-_rr92Dc/view?usp=drive_link", solution: "https://drive.google.com/file/d/13HisgBezQjmlJ6IpR2CatmieUjqLAfwp/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1WdiLDCKyE-XbFsQgt4RS0Ik6fuF33dQr/view?usp=drive_link", solution: "https://drive.google.com/file/d/1r0zFqZfw9UQYqmi21WCnnBo520Dwf4aG/view?usp=drive_link" },
+                    "هندسة كهربائية": { subject: "https://drive.google.com/file/d/1svM2ljJ-8pppj15rU3rsixR1O2znjooW/view?usp=drive_link", solution: "https://drive.google.com/file/d/1jaTCxGOPRQ6aixsvlXAvVe0OnTidsJly/view?usp=drive_link" },
+                    "هندسة ميكانيكية": { subject: "https://drive.google.com/file/d/1sxe244T8Ru_po_SLhHLYYOO_XE1DE3n5/view?usp=drive_link", solution: "https://drive.google.com/file/d/1bMxpHmYmGTqqMBHTgcnMNn3yKfWqJ8S6/view?usp=drive_link" },
+                    "هندسة مدنية": { subject: "https://drive.google.com/file/d/17A3NRQa1ddNlW-cuMOYrjcklZqCrh4dz/view?usp=drive_link", solution: "https://drive.google.com/file/d/1pjwMIC1Gk39MZY-KpLl5A2zF-42YV-RI/view?usp=drive_link" },
+                    "هندسة الطرائق": { subject: "https://drive.google.com/file/d/1Of_Cf0ebyKcijRzETUMSI0TKeU7qpWT_/view?usp=drive_link", solution: "https://drive.google.com/file/d/1FkrL7o7dLCQqnEcChGrZEW_e-6B5pP1q/view?usp=drive_link" }
+                },
+                2023: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1UYWfablw54ZnpqL_OSnykBUOfTw4Hplw/view?usp=drive_link", solution: "https://drive.google.com/file/d/1KRbltcaMfN-teJLC9V0blvv3EpwYzhQU/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1DT5Hn5eOzBdoObQh4dicB-cE7VxIdJFs/view?usp=drive_link", solution: "https://drive.google.com/file/d/1tUPEeghGeEA__pptx4sT27sGffaXZzL1/view?usp=drive_link" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1XRG_N5TqK4pA8CVkFTGRCgt2DyqAOWAu/view?usp=drive_link", solution: "https://drive.google.com/file/d/1W-Rcg5Al51adxOYGSnv1jvYWMK5uQVWf/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1K_xxc9h66jY-QHhGGFLoHbmbOzvwz3PO/view?usp=drive_link", solution: "https://drive.google.com/file/d/1XwAjPTyz1uG_dlXIVm6-6I72ZmZrL5OO/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1iwWmfF547AdHLgvw_8uS8JfDMR-yRrxS/view?usp=drive_link", solution: "https://drive.google.com/file/d/1UFUA6pphhq_WKUJO6NKeBMx0eFJwavXH/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1la3D7wAHedX4Bf7xV4E5hCU8h02R8dtZ/view?usp=drive_link", solution: "https://drive.google.com/file/d/1OaA4BJ-ZjK62yKv0OWugRNbqfnwv4kFQ/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1Xy4zmcGctSH7kUxvq6UoPKEryfZdtZh3/view?usp=drive_link", solution: "https://drive.google.com/file/d/1ieJPjbHvrFdaAtOpdHRonEFYBTorKEN0/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1WF4lHTabZ-Ia9RnhEMKINcWw61fal9I_/view?usp=drive_link", solution: "https://drive.google.com/file/d/1M3ZGn9ce8X3WUwRA8u94wvEUUnXiEwct/view?usp=drive_link" },
+                    "هندسة كهربائية": { subject: "https://drive.google.com/file/d/1OKOYFdF6JKQ1uZ31FursIp6H9qrfzlaK/view?usp=drive_link", solution: "https://drive.google.com/file/d/1Q0bQWK5t6_ZBOsnrldbnf9QH_vB1-smV/view?usp=drive_link" },
+                    "هندسة ميكانيكية": { subject: "https://drive.google.com/file/d/1VAlLrSF8DEltcQDZB6TyaTf1cb4wCq77/view?usp=drive_link", solution: "https://drive.google.com/file/d/17eaPNB2nch21roqSrq__wN_mq___g0Qc/view?usp=drive_link" },
+                    "هندسة مدنية": { subject: "https://drive.google.com/file/d/1sjc8ANp5i99t92z5noTfI0TTVdolf4fe/view?usp=drive_link", solution: "https://drive.google.com/file/d/1b6yczK8C786Xn8EM7RDvLC_MhYHcRADZ/view?usp=drive_link" },
+                    "هندسة الطرائق": { subject: "https://drive.google.com/file/d/1knlDspg0Ihd09YhtJ8cInQRgoakt_fLq/view?usp=drive_link", solution: "https://drive.google.com/file/d/1IMo4jxVEFadSAe7ordNJMlcoO3A3KCfU/view?usp=drive_link" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/18tcK8_lFxrFEy1fVHjmFTY59jdASsecX/view?usp=drive_link", solution: "https://drive.google.com/file/d/1KneFR_rznDtH7wY337XuH8Hfn48e8-7c/view?usp=drive_link" }
+                },
+                2022: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1v6bWKeukwtBeHQOH6wQoR7qO0vdo2FW7/view?usp=sharing", solution: "https://drive.google.com/file/d/11YFKCg5AOpaGE1NRP_vImVzBmNA2R-Cx/view?usp=sharing" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1sDE6Pm-8w1l_ZVJFjlQpLwPRYfaailD5/view?usp=sharing", solution: "https://drive.google.com/file/d/1I7McH-9Uo08khW_Ue7kGK8dQYqdvKsN1/view?usp=sharing" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1lkfP7L9L7hSrCXYDk6E0MFFhKBH5dfX3/view?usp=sharing", solution: "https://drive.google.com/file/d/1U50xdFkPyffVZkLMxbsvKzQ6sMGF17W5/view?usp=sharing" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1Ex5GK6rCJehqlmJAU5K1vY1LlFbDNkGt/view?usp=sharing", solution: "https://drive.google.com/file/d/1uaFUsLnNBqHeF1Ge3tHzvpelYwN05o2m/view?usp=sharing" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/14kaWZVzWEEMCYzyBY6S7BGDZwO3qmJNu/view?usp=sharing", solution: "https://drive.google.com/file/d/1r5DIaWCZG7NsZn_IwhfO9eAGMMK1hO_p/view?usp=sharing" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1jQ5N52rytfgZT0PYKB9bclT6yoAhISgq/view?usp=sharing", solution: "https://drive.google.com/file/d/1JpMJzy4U_bWJ3CpOhjpJf85-OcUPCnHJ/view?usp=sharing" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1289baFZtclJfMEjLc3R5uFubY73Rk643/view?usp=sharing", solution: "https://drive.google.com/file/d/10X_xcjNHYwSeJGkHhSu57osm-Zy7pmOo/view?usp=sharing" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1sIorUamVYJQV5n06wEfB0GvzuHvqBgOX/view?usp=sharing", solution: "https://drive.google.com/file/d/1b-FD6u4u6kEGNoQOCdz0gOUs8-Mz5JFv/view?usp=sharing" },
+                    "هندسة كهربائية": { subject: "https://drive.google.com/file/d/1ve1-QdpGU4ae8kDUo5IvwX8Q_VPnLerZ/view?usp=sharing", solution: "https://drive.google.com/file/d/1UNLuOw0nl2crsvpffmHV_PZ60oNg3The/view?usp=sharing" },
+                    "هندسة ميكانيكية": { subject: "https://drive.google.com/file/d/1klffuNBHHR8umEp9SoFBU-RW--JpfS1y/view?usp=sharing", solution: "https://drive.google.com/file/d/11sHdntwYWsOB08CYWB3yDnVuXgU_LCHG/view?usp=sharing" },
+                    "هندسة مدنية": { subject: "https://drive.google.com/file/d/1D1wG9QghFSITdpJRxjjx8JtzC2p0gW4k/view?usp=sharing", solution: "https://drive.google.com/file/d/1WWmOdZyNIUwIh91nYs4h-IBFLv6EiypC/view?usp=sharing" },
+                    "هندسة الطرائق": { subject: "https://drive.google.com/file/d/1oacfi9etrWY7slVA2jzQKt02qg042l2U/view?usp=sharing", solution: "https://drive.google.com/file/d/19u3iCn51G36BD3037RFlTuL9BitOP7xI/view?usp=sharing" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1Wpo3zLPw7SxJNHq1VEGT_TvZjI_EWZ6i/view?usp=sharing", solution: "https://drive.google.com/file/d/170xo2h_yC1VMHBKnoFVs-fNk8Su8VH_6/view?usp=sharing" }
+                },
+                2021: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1_TFr_EfF4S6FE1d1Vvfru5HUpAl-5uDF/view?usp=sharing", solution: "https://drive.google.com/file/d/1RT0dvxl2RWUY9E6juVJBkOqjICNMhJXI/view?usp=sharing" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1m0JZEQh-TGQYwYCdoXgYFu-Fq-ne7COq/view?usp=sharing", solution: "https://drive.google.com/file/d/1y2iks0PNGwTH2xV7I4RBbgghrJWvf3QH/view?usp=sharing" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1DTrKBtEhnZFoIl3KhehCRsvVo7qq7b6M/view?usp=sharing", solution: "https://drive.google.com/file/d/1zNjS4IhFoJtF7XHYkwJLXjVuLQSJZa8Y/view?usp=sharing" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1BP-eWjb5mNpgxXy_jwZfQ1LShyl1TPJG/view?usp=sharing", solution: "https://drive.google.com/file/d/1IvuvbFU0UGCxKmr0NUNMQHtZT_xqqN3J/view?usp=sharing" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1sV2b0olibgzcATp6FiMIVgszp7BGu29F/view?usp=sharing", solution: "https://drive.google.com/file/d/1S46l0_4HkDnwBxfmeh21VmdhZCUWXG8O/view?usp=sharing" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1m9ebCPpjwNoPfvzjkhZ48w2PnZWwaXWK/view?usp=sharing", solution: "https://drive.google.com/file/d/1ForO30T3e16pzUAfvsrZAvivWD3SGrA_/view?usp=sharing" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1HfvMvwdhPQKfjVV_HrP41JAJa2ZMekWr/view?usp=sharing", solution: "https://drive.google.com/file/d/1pn0AV9nOT-5EL5F8tC2vomOPmKG8sBYL/view?usp=sharing" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1XolayCv6lwlRa8_X5eH03JVbUUwz9WqT/view?usp=sharing", solution: "https://drive.google.com/file/d/17hge4pcFnXSrV7UGjkhu4jxAD5CzKfvU/view?usp=sharing" },
+                    "هندسة كهربائية": { subject: "https://drive.google.com/file/d/1CA8SOpZa-H750m6Jo0pjalF2zH6Qy2WJ/view?usp=sharing", solution: "https://drive.google.com/file/d/1uHJ3rVNsdweHqP0YBAoAfEKius5aZ5-i/view?usp=sharing" },
+                    "هندسة ميكانيكية": { subject: "https://drive.google.com/file/d/12ddLKKBRPALhEybE64wbiyGMql_V9ERT/view?usp=sharing", solution: "https://drive.google.com/file/d/1F3d2ZUW3z6AZ6Jtfcg_ySfDGdwDyYfGU/view?usp=sharing" },
+                    "هندسة مدنية": { subject: "https://drive.google.com/file/d/1WNYrD6swNjkUIsFhWBPdQy3vMDfvJkrI/view?usp=sharing", solution: "https://drive.google.com/file/d/1w32BtMx72W_iMLZ5PtaSBoEGF8idN3ED/view?usp=sharing" },
+                    "هندسة الطرائق": { subject: "https://drive.google.com/file/d/1NxCOe5CWxHTZH1ESOa4lCyy7Gnjx9Ajm/view?usp=sharing", solution: "https://drive.google.com/file/d/1auijqLyAMjrOMUpt7NhR6daLcRt4MhAE/view?usp=sharing" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1L8DjLm-YGnxkqcpXfYvh9jsM0gv53D2C/view?usp=sharing", solution: "https://drive.google.com/file/d/1sIRIQf58etH5zLa5mNcU72FNCk-qjl0H/view?usp=sharing" }
+                },
+                2020: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1z_CbwqMoJ_QhJYzXHO6GRErIaaxmiJ2u/view?usp=sharing", solution: "https://drive.google.com/file/d/1BabUX_LPzZt_LmCnpDRoxPttpZ8hE0Sb/view?usp=sharing" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1Ta3wSU0FwXN9m5Kmn9lE-2Xwku6gQCqI/view?usp=sharing", solution: "https://drive.google.com/file/d/1iZlcibJtY_beKZYFGwh-k7Rel9LF6R6B/view?usp=sharing" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/file/d/1V5jxWgWOwoCMqMrO-irq71fB3s7agEoh/view?usp=sharing", solution: "https://drive.google.com/file/d/1bY-c6gfV9yRhv0YJMyq0LjNv5UgFDkXx/view?usp=sharing" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1kmQ9tgqemvi8-_er-_0K28S_s6ypHPJn/view?usp=sharing", solution: "https://drive.google.com/file/d/1LKsulDdrl-wCGpmFFjzGlSgna9O_7Eoa/view?usp=sharing" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1URtsiUjBTCoAl6DKTie99x4P_MndCJhD/view?usp=sharing", solution: "https://drive.google.com/file/d/1l-4V7fZN3Tums8pPteXTWF-zV_LZSWRK/view?usp=sharing" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1UvM8NIhATQafBHMssQlElvQrU3PvdX5a/view?usp=sharing", solution: "https://drive.google.com/file/d/1UTOOU-jPTg2JbZ8dQI-eHmm9gC6enVFq/view?usp=sharing" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1tAQSJ9mJKg4FMP6kZSjWWpKk287WW_7w/view?usp=sharing", solution: "https://drive.google.com/file/d/13kqpswoBIkxku43JIlrApjddyiak53Fg/view?usp=sharing" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/17j4ctbxJ8Qv4Kb2KrBjMN9LtoOcbQ3Pd/view?usp=sharing", solution: "https://drive.google.com/file/d/1SxZjl_3wef-_-aiI2GWb36z68UKXcR6O/view?usp=sharing" },
+                    "هندسة كهربائية": { subject: "https://drive.google.com/file/d/1n9M0gk6bwP2Q4-vEAB4rloVbp7XkHoNw/view?usp=sharing", solution: "https://drive.google.com/file/d/1WQC1-1yBSGvhU0wMG4Sa95V8W6nMMXDt/view?usp=sharing" },
+                    "هندسة ميكانيكية": { subject: "https://drive.google.com/file/d/1smLOJ74zmU5oX_JGfQBGcALKZeMi5WcA/view?usp=sharing", solution: "https://drive.google.com/file/d/1SbUcN9HcGXoxLxE_oF_HiW9Z86TYdRuV/view?usp=sharing" },
+                    "هندسة مدنية": { subject: "https://drive.google.com/file/d/1jW7hznENPmumXi4TgysBB-37k2PQI2F2/view?usp=sharing", solution: "https://drive.google.com/file/d/1pCtUmKxQB7eIcEtIPHAwOrGX70nxaVpi/view?usp=sharing" },
+                    "هندسة الطرائق": { subject: "https://drive.google.com/file/d/1BGlJ4koL9_A8EZsu3hFIgTC1vrsXnzXX/view?usp=sharing", solution: "https://drive.google.com/file/d/1na1v77zpIrRdV-3AtsSUM_QxO71XhMC8/view?usp=sharing" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/12QHL_wLUOZ5WSRITng8Qz5aHjO0bIYV1/view?usp=sharing", solution: "https://drive.google.com/file/d/1SxFNvMO4kGLr-VPA42qFpBoOzDr0ybS1/view?usp=sharing" }
+                },
+                2019: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/open?id=1UqSNzmPPiVwbpzOxH_BogTujnf9SnGZj", solution: "https://drive.google.com/open?id=14ybJgpzhVnJbFROYrOcya_bC5QxXXLfP" },
+                    "الرياضيات": { subject: "https://drive.google.com/open?id=17RFxBU7GY0Q99nd7M8eGfnB2FjuP4Ije", solution: "https://drive.google.com/open?id=1Cvmbnh1dgg4L5qsnAjcXG_sna4ZyG-1I" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/open?id=19eT94Rj3z4G2EGK6d6D9sTwLNBE1mKYr", solution: "https://drive.google.com/open?id=1jyWWThwC98DuT-Le8J4NxU2kfVTHJS5g" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/open?id=1Nx37AAIJ01aSeZRnAG0WkcscQq42-ZDP", solution: "https://drive.google.com/open?id=11_mp_zdp-uzKPyLaSNJA8rLRtn-SGTT0" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/open?id=11eItRyz2bIlNL5JDr2BgelYrqETV1t_u", solution: "https://drive.google.com/open?id=1JKxIAEgDHm9O1maLZWM_Ni22mcgq0InK" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/open?id=1Flo0EP9WCp46LpeE8d6Is9xY-wIHKpB3", solution: "https://drive.google.com/open?id=1LMqgZduBZBELXTX-mYofD63ksr9TNLsf" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/open?id=1gvXPHGLJYHgpnXtT0o67-_OP8clAY--_", solution: "https://drive.google.com/open?id=1olWZYy3xx5uUGBE4fClcLZwsZiCjG2_9" },
+                    "الفلسفة": { subject: "https://drive.google.com/open?id=1gJzpaK93X8NjzpOYzje8mTa3OxHkq8E2", solution: "https://drive.google.com/open?id=1WhOv1INnrdCFAZQDUQRwRdw9ecVDchY6" },
+                    "هندسة كهربائية": { subject: "https://drive.google.com/open?id=15Grnqa53k3Gu1Bp3QdUktv8bwC_GgSwy", solution: "https://drive.google.com/open?id=1MdVfgxiBF_4UhYItONJlPk3W2SfVn-4i" },
+                    "هندسة ميكانيكية": { subject: "https://drive.google.com/open?id=1mKrP4zAXaPRx8f0q_jtuRexA3VSNDpNV", solution: "https://drive.google.com/open?id=1NCj7ZlWxB3f3ySJpQoIfr6YrCyjbzT0q" },
+                    "هندسة مدنية": { subject: "https://drive.google.com/open?id=1ml4eg74uPXVIw98b5oiGKv2F8ox61xl-", solution: "https://drive.google.com/open?id=1eLl5w3Kx5_rRCEI8LDgTt_yr0sV6--Tt" },
+                    "هندسة الطرائق": { subject: "https://drive.google.com/open?id=1qImINB3l7zNZ2cQukOy6fEu16thFRT86", solution: "https://drive.google.com/open?id=16xX0rwsPwQBHlPFe9XaiRoOxCeGySdPC" },
+                    "الأمازيغية": { subject: "https://drive.google.com/open?id=1NhGDO-l2VM90HFC3Qgk12gnb0ddZNcQi", solution: "https://drive.google.com/open?id=1ICrKHGHyejLguDKufA0NydI_C_0ciGZq" }
+                },
+                2018: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/open?id=1PDmL3w-2a5mm0KFq97sz-tmGr2yuHhZn", solution: "https://drive.google.com/open?id=15p-kc6tts_yIToFIjEFI6e0sdr2ddOEt" },
+                    "الرياضيات": { subject: "https://drive.google.com/open?id=1p1HrbeHIMwmjTaXugKf-1LI_VxUgurup", solution: "https://drive.google.com/open?id=161aR1ocQqzWO8mk4V1cmjpOPSsSTvsgr" },
+                    "العلوم الفيزيائية": { subject: "https://drive.google.com/open?id=1dBM2uiK-KZXyV-n6u0ZiOt__55RxNqkJ", solution: "https://drive.google.com/open?id=1ERIdLyX_PyhGTiuuVFVNE4jj4k-Vv-Ln" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/open?id=1CDV5QM8ZR-wBNDdfdxLuOA3ZceDDiZO_", solution: "https://drive.google.com/open?id=1EbNtZ3OIben3mGEOPIc-EHIj1o-2EteB" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/open?id=1gn8dllWr6sU3qR3j3FLpf0BRdctYMURG", solution: "https://drive.google.com/open?id=1ge1Iixpi1yDZoJ2oEmyfQhaUHkFHijsY" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/open?id=14ATF2x-jq4xYX9Ebiwyk_zC5amDAxlbu", solution: "https://drive.google.com/open?id=1ZLNWCK2ztzuamnC8wgsJg0ErOjQqbWRJ" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/open?id=1OpuJ9KYDYuTQQ0yS3Z7J7lgLPOlR2jPv", solution: "https://drive.google.com/open?id=19CpeIvfVa1NrwQgLxZF7JdXUPeDSdxoI" },
+                    "الفلسفة": { subject: "https://drive.google.com/open?id=1Qad-KS38g5ki2uAZJnw_d6yp7KNeJy6i", solution: "https://drive.google.com/open?id=1wEOO7QU_yyTCmukiE1wM7g9DTddv2eeY" },
+                    "هندسة كهربائية": { subject: "https://drive.google.com/open?id=1nHv8tMPTGqYrOVL9jguVHRolTwkUGMZ3", solution: "https://drive.google.com/open?id=1rP-GSI-ZreM6pLYB0LDNiIAy-YAHmxNj" },
+                    "هندسة ميكانيكية": { subject: "https://drive.google.com/open?id=15wVE1ra8VP_1mXyHOdDCbXvUdcnWRs_A", solution: "https://drive.google.com/open?id=1O6RvXM2YBMQ3wLG_0ycN0bEKfqeSUlEe" },
+                    "هندسة مدنية": { subject: "https://drive.google.com/open?id=1qu719cvDgGcHLjSCZLJWdOg1opEYZJ8u", solution: "https://drive.google.com/open?id=1Lkt_KH-iCLNgSWUP72NY-uERME9CUIcW" },
+                    "هندسة الطرائق": { subject: "https://drive.google.com/open?id=1iqAyWLT1qMPnmciGJAzbnLCTg5ikaO2R", solution: "https://drive.google.com/open?id=1-yvoOcVyCs1-Tpw_KspF8gFTHvJ_ieKr" },
+                    "الأمازيغية": { subject: "https://drive.google.com/open?id=14bEuCk01Us4jo384M7ra6zsYSu9d4TzG", solution: "https://drive.google.com/open?id=1feVoSS17A3l_BbHpaHmBpcIabxPVIlc5" }
+                },
+                2017: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_ar-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_ar-2_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_math-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_math-2_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_physiq-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_physiq-2_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_islamiq-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_islamiq-2_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_hgeo-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_hgeo-2_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_ang-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_ang-2_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_fr-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_fr-2_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_philo-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_philo-2_s.pdf" },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_gelec-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_gelec-2_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_gmec-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_gmec-2_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_gciv-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_gciv-2_s.pdf" },
+                    "هندسة الطرائق": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_gmeth-2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/10/bac_2017_mt_gmeth-2_s.pdf" }
+                },
+                2016: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_physiq_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_hgeo-1.pdf", solution: null },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_ang-1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_ang-1_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_fr-1.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_fr-1_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_philo-1.pdf", solution: null },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_gelec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_gelec_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_gmec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_gmec_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_gciv.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_gciv_s.pdf" },
+                    "هندسة الطرائق": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_gmeth.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2017/03/bac_2016_mt_gmeth_s.pdf" }
+                },
+                2015: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_physiq_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_islamiq_s1.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_philo_s.pdf" },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_gelec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_gelec_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_gmec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_gmec_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_gciv.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_gciv_s.pdf" },
+                    "هندسة الطرائق": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_gmeth.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2015/11/bac_2015_mt_gmeth_s.pdf" }
+                },
+                2014: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_physiq_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_philo_s.pdf" },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_gelec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_gelec_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_gmec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_gmec_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_gciv.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_gciv_s.pdf" },
+                    "هندسة الطرائق": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_gmeth.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2014/09/bac_2014_mt_gmeth_s.pdf" }
+                },
+                2013: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_physiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_physiq_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_philo_s.pdf" },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_gelec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_gelec_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_gmec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_gmec_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_gciv.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_gciv_s.pdf" },
+                    "هندسة الطرائق": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_gmeth.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/07/bac_2013_mt_gmeth_s.pdf" }
+                },
+                2012: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_phisiq_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_islamiq.pdf", solution: "http://khelifak.files.wordpress.com/2013/05/bac_2012_mt_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_hgeo.pdf", solution: "http://khelifak.files.wordpress.com/2013/05/bac_2012_mt_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_philo_s.pdf" },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_gelec.pdf", solution: "http://khelifak.files.wordpress.com/2013/05/bac_2012_mt_gelec_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_gmec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_gmec_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_gciv.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_gciv_s.pdf" },
+                    "هندسة الطرائق": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_gmeth.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2012_mt_gmeth_s.pdf" }
+                },
+                2011: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_ar2.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_ar_s2.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_phisiq_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_philo_s.pdf" },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_gelec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_gelec_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_gmec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_gmec_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_gciv.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_gciv_s.pdf" },
+                    "هندسة الطرائق": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_gmeth.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2011_mt_gmeth_s.pdf" }
+                },
+                2010: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_phisiq_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_philo_s.pdf" },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_gelec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_gelec_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_gmec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_gmec_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_gciv.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_gciv_s.pdf" },
+                    "هندسة الطرائق": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_gmeth.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2010_mt_gmeth_s.pdf" }
+                },
+                2009: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_phisiq_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_philo_s.pdf" },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_gelec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_gelec_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_gmec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_gmec_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_gciv.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_gciv_s.pdf" },
+                    "هندسة الطرائق": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_gmeth.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2009_mt_gmeth_s.pdf" }
+                },
+                2008: {
+                    "اللغة العربية و آدابها": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_ar.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_ar_s.pdf" },
+                    "الرياضيات": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_math.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_math_s.pdf" },
+                    "العلوم الفيزيائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_phisiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_phisiq_s.pdf" },
+                    "العلوم الإسلامية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_islamiq.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_islamiq_s.pdf" },
+                    "التاريخ و الجغرافيا": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_hgeo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_hgeo_s.pdf" },
+                    "اللغة الإنجليزية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_ang.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_ang_s.pdf" },
+                    "اللغة الفرنسية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_fr.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_fr_s.pdf" },
+                    "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_philo_s.pdf" },
+                    "هندسة كهربائية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_gelec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_gelec_s.pdf" },
+                    "هندسة ميكانيكية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_gmec.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_gmec_s.pdf" },
+                    "هندسة مدنية": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_mt_gciv.pdf", solution: "http://khelifak.files.wordpress.com/2013/05/bac_2008_mt_gciv_s.pdf" },
+                    "هندسة الطرائق": { subject: "http://khelifak.files.wordpress.com/2013/05/bac_2008_mt_gmeth.pdf", solution: "http://khelifak.files.wordpress.com/2013/05/bac_2008_mt_gmeth_s.pdf" }
+                }
+            },
+
+            // ------------------------------ شعبة التسيير و الإقتصاد ------------------------------
+            management: {
+                // يمكن إضافة بيانات مشابهة هنا باستخدام الروابط المستخرجة من الملف الأصلي
+                // نظراً لكبر حجم البيانات، نكتفي بتمثيل السنة 2025 كمثال
+                2025: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1LrhYLF3WRfZSP7Fw72L8gs4IhePI98L7/view?usp=drive_link", solution: "https://drive.google.com/file/d/1RjmrV5mwYaUi6KVg-_5HyUs940zprqlo/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1WleVKDKc-HFnnWnljjgwlGSk6L06rBNT/view?usp=drive_link", solution: "https://drive.google.com/file/d/16QYTBr0K1w-n4QZ_AEUFiUf-Wz5_Ky-e/view?usp=drive_link" },
+                    "التسيير المحاسبي و المالي": { subject: "https://drive.google.com/file/d/1kYdHJfUePK-pqcdXqTm99ikDQ76lU4le/view?usp=drive_link", solution: "https://drive.google.com/file/d/1jJ8X8f0zvj964Abee71rZgqBs2wZz3ES/view?usp=drive_link" },
+                    "الإقتصاد و المناجمنت": { subject: "https://drive.google.com/file/d/16vJlo2JHm0Gt3468Pf1Z8-MzmZubhp7E/view?usp=drive_link", solution: "https://drive.google.com/file/d/19O_jxgOZ76ocKY3X1DV8NiXTY0xFQSga/view?usp=drive_link" },
+                    "القانون": { subject: "https://drive.google.com/file/d/12o4GUYACXCaBt4SSSqxphTpV4ocMHTNB/view?usp=drive_link", solution: "https://drive.google.com/file/d/1YuEg1q4a7jdDAznQy5DyowZgNBViIrMB/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1N_0GZnJyRA0NkdNOX7eQ2RAWj-7xPxxo/view?usp=drive_link", solution: "https://drive.google.com/file/d/1Kn7164DHv18VwWCd_7zMQU0Qhx8sVoEK/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1YNhD1EwicWG1GQ5h3Qq4bhaA-VErLHMz/view?usp=drive_link", solution: "https://drive.google.com/file/d/1COg1VYWjyS91XOhpibkDEEb6_J5P5nIx/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1pCuke3m8Zo7yUFScsEaZJILq8VmWwU2b/view?usp=drive_link", solution: "https://drive.google.com/file/d/1sWZKt78UAcOBr7s4PMEUKoBm7RjYkm5t/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1_QU36C_9vNSCvxppDhefIW5GZnTguy24/view?usp=drive_link", solution: "https://drive.google.com/file/d/1-MbooxdevbGo2CkqXNQcQCLNAAmksQW6/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1vHbMO7Vg9iVSAv7z5E1kUdQ5lGkuQqXg/view?usp=drive_link", solution: "https://drive.google.com/file/d/1mF3qfgzTggL74bS50OhE4LjcIX7RryHK/view?usp=drive_link" }
+                }
+            },
+
+            // ------------------------------ شعبة الآداب و الفلسفة ------------------------------
+            literature: {
+                2025: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1104bSJdo0BBGgnPTqap7XS2TuNSrEk4h/view?usp=drive_link", solution: "https://drive.google.com/file/d/1isGyLHaRB4anMJDJY-fQazpdy1VSzWFW/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1eZYf-mciMPapk3ib0mswap8cJC5yX0Ky/view?usp=drive_link", solution: "https://drive.google.com/file/d/1RbDEoIgwP6PQyIe8yzgpkamAKxE5xyCS/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/1pwQBvhPfpyv5v_2JSf_cCSnT_XzTFwVq/view?usp=drive_link", solution: "https://drive.google.com/file/d/1hzU16fQfrh-Q50ucoKtVE2FEA4DTzx3p/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/13lvWw4W9m55BbqC-5TtJNkp7pLQgHbJF/view?usp=drive_link", solution: "https://drive.google.com/file/d/1lW3Nk62OakNYd-GvZ2TiYMCcdLR5ksF4/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/16tj3d22bfg3HymYncVh6ehn9mLpqeqd8/view?usp=drive_link", solution: "https://drive.google.com/file/d/1CC4kaoledI9e8nKOQNzrHRoZoduUrS8H/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/17lATvi4Us3VPVlcjy5DSm6YRrHRvne9R/view?usp=drive_link", solution: "https://drive.google.com/file/d/1lwbKQDR42kDDHyH4GKSlVu3fxru100Jp/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1rP4xwv98RO2l2A-dkgrqyOEDU7xllsll/view?usp=drive_link", solution: "https://drive.google.com/file/d/1oT-cbOqsBs8Z1ZBwnd0fShL-Z8UDkLUL/view?usp=drive_link" },
+                    "الأمازيغية": { subject: "https://drive.google.com/file/d/1419yIYgIVNn70l_VSQ-KuCF3fIVc5CRf/view?usp=drive_link", solution: null }
+                }
+            },
+
+            // ------------------------------ شعبة اللغات الأجنبية ------------------------------
+            languages: {
+                2025: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1dGm202Hq2fadZ1IFkDsDUxnjoALY1xXk/view?usp=drive_link", solution: "https://drive.google.com/file/d/1FCwEAuvxFQ0nfIL3CS7hw9le4cFThgd7/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/18XhAjleCK0wTzZnmr-ZieZAl949gYJPQ/view?usp=drive_link", solution: "https://drive.google.com/file/d/1M9SuJF8G4y65Ov8gcD20BZXoEy5Z-HmM/view?usp=drive_link" },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/167BoAj1hgPMTrNm8o-nCrZ5Gxx6xsRfP/view?usp=drive_link", solution: "https://drive.google.com/file/d/1FVi2liTjA5I6cBpQgdxtZdm5nSAelXnH/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1rIvtye8B_zW_OyPOKEl1dWY1bWaEirOt/view?usp=drive_link", solution: "https://drive.google.com/file/d/1awXYV8USOVDh9GiY8KR0TuNn4aCh_GjM/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1-kDbSIHHOQ4sl1Bik84DbswWdNKX_hvJ/view?usp=drive_link", solution: "https://drive.google.com/file/d/1ES0PJyJHV1zDShhgDAmlSbEO05kOomh7/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/1wHOfTGcxnd98aGsT5N3en5345MXJxFjf/view?usp=drive_link", solution: "https://drive.google.com/file/d/1uM8fRTY0S8s1n_vZqST5nFhaMcebBPz3/view?usp=drive_link" },
+                    "اللغة الألمانية": { subject: "https://drive.google.com/file/d/1tDXp2EAzFxVgtfwOHoBEfG5kNM6Xu0Ff/view?usp=drive_link", solution: "https://drive.google.com/file/d/1Qz0y8um0jU-_FB2UYZG0u8000GUZ2rRf/view?usp=drive_link" },
+                    "اللغة الإسبانية": { subject: "https://drive.google.com/file/d/1qSXEN9Ls8AscyrqJ6eT721f7HOwzjVEd/view?usp=drive_link", solution: "https://drive.google.com/file/d/1PQBYz3d64o--KatGchhxXtMIM1ra4DdD/view?usp=drive_link" },
+                    "اللغة الإيطالية": { subject: "https://drive.google.com/file/d/1ytz0RLBfp7JuwdHBGKjjZIMdAO4INcw6/view?usp=drive_link", solution: "https://drive.google.com/file/d/1hd-blqDoIX1vZyb_JPA5QKR495UPEE5E/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1PFVsLXB9NOU49qQ5tVscgG0JZ2554TVX/view?usp=drive_link", solution: "https://drive.google.com/file/d/1l64zE83GjADv9lwBDgqDnX5ochZz10mh/view?usp=drive_link" }
+                }
+            },
+
+            // ------------------------------ شعبة الفنون ------------------------------
+            arts: {
+                2025: {
+                    "اللغة العربية و آدابها": { subject: "https://drive.google.com/file/d/1SVy6squcQ5j8wQDLCz3_rr3PEvgDKUPT/view?usp=drive_link", solution: "https://drive.google.com/file/d/1LgDo9tm5JyWOksLXbwseMtjhz4Fcvjcb/view?usp=drive_link" },
+                    "الرياضيات": { subject: "https://drive.google.com/file/d/1nY4JM7Ff3d8cZPNVPMldhetVnV4863mt/view?usp=drive_link", solution: "https://drive.google.com/file/d/1QV6mfXMABHRjCWe5Q4UCDrDWdJmfEyPB/view?usp=drive_link" },
+                    "فنون": { subject: "https://drive.google.com/file/d/17JdPLNTyVDIU0rtGgjt_6Lu9OsthThv_/view?usp=drive_link", solution: null },
+                    "العلوم الإسلامية": { subject: "https://drive.google.com/file/d/11bedOWyccVVhixFbjIo-TSff5SX2glyy/view?usp=drive_link", solution: "https://drive.google.com/file/d/1k1Hzp05rcREYCmwXh5s1ps22TOSuRjPA/view?usp=drive_link" },
+                    "التاريخ و الجغرافيا": { subject: "https://drive.google.com/file/d/1bngwEd6gSlj_LhOJlKxDGUSjQnlzsYnT/view?usp=drive_link", solution: "https://drive.google.com/file/d/1uVGJTudxZ7pKhWx-sBiDXGqCnkUAFmGu/view?usp=drive_link" },
+                    "اللغة الإنجليزية": { subject: "https://drive.google.com/file/d/1cWghTI93T8tyNkZSGCsZhZ1d0yVxcj07/view?usp=drive_link", solution: "https://drive.google.com/file/d/1gQ9b17EGW4Ec4f6jb940oAXnOmUIaEyo/view?usp=drive_link" },
+                    "اللغة الفرنسية": { subject: "https://drive.google.com/file/d/16et1n1y09wpY34kjZ4Nup3T9afTiBcKO/view?usp=drive_link", solution: "https://drive.google.com/file/d/1Ngpq2mkgdgjmYJ_6OGSnb7SjWtvCh5m7/view?usp=drive_link" },
+                    "الفلسفة": { subject: "https://drive.google.com/file/d/1hiNEI61QkZzPcAFpFsXBdLKt2e67yAIt/view?usp=drive_link", solution: "https://drive.google.com/file/d/1xYkZNyEpmGl_Nvng-_MV6kwFZ26VfxMq/view?usp=drive_link" }
+                }
+            }
+        };
+
+        // تعريف الشعب مع المواد الخاصة بكل منها
+        const branches = [
+            {
+                id: 'math',
+                name: 'شعبة الرياضيات',
+                emoji: '📐',
+                subjects: ['اللغة العربية و آدابها', 'الرياضيات', 'العلوم الفيزيائية', 'علوم الطبيعة و الحياة', 'العلوم الإسلامية', 'التاريخ و الجغرافيا', 'اللغة الإنجليزية', 'اللغة الفرنسية', 'الفلسفة', 'الأمازيغية']
+            },
+            {
+                id: 'science',
+                name: 'شعبة العلوم التجريبية',
+                emoji: '🧪',
+                subjects: ['اللغة العربية و آدابها', 'الرياضيات', 'العلوم الفيزيائية', 'علوم الطبيعة و الحياة', 'العلوم الإسلامية', 'التاريخ و الجغرافيا', 'اللغة الإنجليزية', 'اللغة الفرنسية', 'الفلسفة', 'الأمازيغية']
+            },
+            {
+                id: 'tech-math',
+                name: 'شعبة التقني رياضي',
+                emoji: '⚙️',
+                subjects: ['اللغة العربية و آدابها', 'الرياضيات', 'العلوم الفيزيائية', 'العلوم الإسلامية', 'التاريخ و الجغرافيا', 'اللغة الإنجليزية', 'اللغة الفرنسية', 'الفلسفة', 'هندسة كهربائية', 'هندسة ميكانيكية', 'هندسة مدنية', 'هندسة الطرائق', 'الأمازيغية']
+            },
+            {
+                id: 'management',
+                name: 'شعبة التسيير و الإقتصاد',
+                emoji: '📊',
+                subjects: ['اللغة العربية و آدابها', 'الرياضيات', 'التسيير المحاسبي و المالي', 'الإقتصاد و المناجمنت', 'القانون', 'العلوم الإسلامية', 'التاريخ و الجغرافيا', 'اللغة الإنجليزية', 'اللغة الفرنسية', 'الفلسفة']
+            },
+            {
+                id: 'literature',
+                name: 'شعبة الآداب و الفلسفة',
+                emoji: '📚',
+                subjects: ['اللغة العربية و آدابها', 'الفلسفة', 'العلوم الإسلامية', 'التاريخ و الجغرافيا', 'اللغة الإنجليزية', 'اللغة الفرنسية', 'الرياضيات', 'الأمازيغية']
+            },
+            {
+                id: 'languages',
+                name: 'شعبة اللغات الأجنبية',
+                emoji: '🌍',
+                subjects: ['اللغة العربية و آدابها', 'اللغة الإنجليزية', 'اللغة الفرنسية', 'اللغة الألمانية', 'اللغة الإسبانية', 'اللغة الإيطالية', 'العلوم الإسلامية', 'التاريخ و الجغرافيا', 'الفلسفة', 'الرياضيات']
+            },
+            {
+                id: 'arts',
+                name: 'شعبة الفنون',
+                emoji: '🎨',
+                subjects: ['اللغة العربية و آدابها', 'الفلسفة', 'العلوم الإسلامية', 'التاريخ و الجغرافيا', 'اللغة الإنجليزية', 'اللغة الفرنسية', 'الرياضيات', 'فنون']
+            }
+        ];
+
+        const years = Array.from({ length: 18 }, (_, i) => 2025 - i);
+
+        // State
+        let selectedBranch = 'science';
+        let selectedYear = 2025;
+        let searchQuery = '';
+
+        // Initialize
+        function init() {
+            renderBranches();
+            renderYears();
+            renderSubjects();
+            setupEventListeners();
+        }
+
+        function renderBranches() {
+            const container = document.getElementById('branchesContainer');
+            container.innerHTML = branches.map(branch => `
+                <button class="branch-btn ${branch.id === selectedBranch ? 'active' : ''}" onclick="selectBranch('${branch.id}')">
+                    <span class="branch-emoji">${branch.emoji}</span>
+                    ${branch.name}
+                </button>
+            `).join('');
+        }
+
+        function renderYears() {
+            const container = document.getElementById('yearsContainer');
+            container.innerHTML = years.map(year => `
+                <button class="year-btn ${year === selectedYear ? 'active' : ''}" onclick="selectYear(${year})">
+                    ${year}
+                </button>
+            `).join('');
+        }
+
+        function getLink(subject, type) {
+            const yearData = baccalaureateLinks[selectedBranch] ? baccalaureateLinks[selectedBranch][selectedYear] : null;
+            const subjectData = yearData ? yearData[subject] : null;
+            return subjectData ? subjectData[type] : null;
+        }
+
+        function renderSubjects() {
+            const branch = branches.find(b => b.id === selectedBranch);
+            const container = document.getElementById('subjectsContainer');
+            const emptyState = document.getElementById('emptyState');
+            const title = document.getElementById('subjectsTitle');
+
+            title.textContent = `مواضيع ${selectedYear} - ${branch.name}`;
+
+            let subjects = branch.subjects;
+            if (searchQuery) {
+                subjects = subjects.filter(s => s.includes(searchQuery) || s.toLowerCase().includes(searchQuery.toLowerCase()));
+            }
+
+            if (subjects.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            container.innerHTML = subjects.map((subject) => {
+                const subjectLink = getLink(subject, 'subject');
+                const solutionLink = getLink(subject, 'solution');
+                
+                const disabledAttr = !subjectLink && !solutionLink ? 'disabled' : '';
+                const disabledClass = !subjectLink && !solutionLink ? 'disabled-btn' : '';
+                const opacityStyle = !subjectLink && !solutionLink ? 'opacity: 0.5;' : '';
+
+                return `
+                <div class="subject-card" style="${opacityStyle}">
+                    <div class="subject-name">${subject}</div>
+                    <div class="subject-actions">
+                        <button class="action-btn preview-btn ${disabledClass}" 
+                            ${subjectLink ? `onclick="preview('${subject}')"` : 'disabled'} 
+                            ${!subjectLink ? 'disabled' : ''}>
+                            👁️ معاينة
+                        </button>
+                        <button class="action-btn download-btn ${disabledClass}" 
+                            ${solutionLink ? `onclick="download('${subject}')"` : ''}
+                            ${!solutionLink ? 'disabled' : ''}>
+                            ⬇️ تحميل
+                        </button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function selectBranch(branchId) {
+            selectedBranch = branchId;
+            renderBranches();
+            renderSubjects();
+        }
+
+        function selectYear(year) {
+            selectedYear = year;
+            renderYears();
+            renderSubjects();
+        }
+
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                document.getElementById('clearSearch').style.display = searchQuery ? 'block' : 'none';
+                renderSubjects();
+            });
+
+            document.getElementById('clearSearch').addEventListener('click', clearFilters);
+        }
+
+        function clearFilters() {
+            searchQuery = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearch').style.display = 'none';
+            renderSubjects();
+        }
+
+        function preview(subject) {
+            const url = getLink(subject, 'subject');
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert('عذراً، الرابط غير متوفر لهذه المادة في هذه السنة.');
+            }
+        }
+
+        function download(subject) {
+            const url = getLink(subject, 'solution');
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert('عذراً، حل الموضوع غير متوفر لهذه المادة في هذه السنة.');
+            }
+        }
+
+        // Start
+        init();
+    </script>
+</body>
+</html>
