@@ -296,12 +296,12 @@
             border-color: #e50914;
         }
 
-        .download-btn {
+        .solution-btn {
             background: #e50914;
             color: #ffffff;
         }
 
-        .download-btn:hover {
+        .solution-btn:hover {
             background: #cc0812;
             transform: scale(1.05);
         }
@@ -1863,10 +1863,30 @@
             `).join('');
         }
 
+        // دالة تحويل رابط Drive إلى صيغة المعاينة
+        function getPreviewUrl(url) {
+            if (!url) return url;
+            // تحويل روابط drive.google.com/open?id=... إلى /preview
+            if (url.includes('drive.google.com/open?id=')) {
+                const fileId = url.split('id=')[1].split('&')[0];
+                return `https://drive.google.com/file/d/${fileId}/preview`;
+            }
+            // تحويل روابط drive.google.com/file/d/.../view?usp=... إلى /preview
+            if (url.includes('drive.google.com/file/d/')) {
+                const match = url.match(/\/d\/([^/]+)/);
+                if (match) {
+                    return `https://drive.google.com/file/d/${match[1]}/preview`;
+                }
+            }
+            // روابط WordPress تبقى كما هي لأنها تعرض PDF مباشرة
+            return url;
+        }
+
         function getLink(subject, type) {
             const yearData = baccalaureateLinks[selectedBranch] ? baccalaureateLinks[selectedBranch][selectedYear] : null;
             const subjectData = yearData ? yearData[subject] : null;
-            return subjectData ? subjectData[type] : null;
+            const originalUrl = subjectData ? subjectData[type] : null;
+            return getPreviewUrl(originalUrl);
         }
 
         function renderSubjects() {
@@ -1901,15 +1921,15 @@
                 <div class="subject-card" style="${opacityStyle}">
                     <div class="subject-name">${subject}</div>
                     <div class="subject-actions">
-                        <button class="action-btn preview-btn ${disabledClass}" 
+                        <button class="action-btn preview-btn ${!subjectLink ? 'disabled-btn' : ''}" 
                             ${subjectLink ? `onclick="preview('${subject}')"` : 'disabled'} 
                             ${!subjectLink ? 'disabled' : ''}>
-                            👁️ الموضوع
+                            👁️ معاينة
                         </button>
-                        <button class="action-btn download-btn ${disabledClass}" 
-                            ${solutionLink ? `onclick="download('${subject}')"` : ''}
+                        <button class="action-btn solution-btn ${!solutionLink ? 'disabled-btn' : ''}" 
+                            ${solutionLink ? `onclick="showSolution('${subject}')"` : 'disabled'}
                             ${!solutionLink ? 'disabled' : ''}>
-                            ⬇️ الحل
+                            📖 الحل
                         </button>
                     </div>
                 </div>
@@ -1955,7 +1975,7 @@
             }
         }
 
-        function download(subject) {
+        function showSolution(subject) {
             const url = getLink(subject, 'solution');
             if (url) {
                 window.open(url, '_blank');
