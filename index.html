@@ -373,6 +373,97 @@
             }
         }
 
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000; /* Sit on top of everything */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.95); /* Black with opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            border: 2px solid #e50914;
+            border-radius: 10px;
+            width: 95%;
+            height: 95%;
+            position: relative;
+            box-shadow: 0 0 30px rgba(229, 9, 20, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 1rem;
+            background: #000;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            color: #e50914;
+            font-weight: bold;
+        }
+
+        .close-modal {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #e50914;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 0;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #fff;
+            background: #ff2030;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #pdfFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            flex-grow: 1;
+        }
+
+        /* Loading Spinner inside Modal */
+        .loader {
+            border: 5px solid #333;
+            border-top: 5px solid #e50914;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -25px;
+            margin-left: -25px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from {
@@ -447,9 +538,23 @@
         <p>جميع الحقوق محفوظة</p>
     </footer>
 
+    <!-- The Modal for PDF Preview -->
+    <div id="pdfModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">معاينة الملف</span>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="loaderContainer" style="position:relative; width:100%; height:100%;">
+                 <div class="loader"></div>
+                 <iframe id="pdfFrame" src="" frameborder="0" style="display:none;"></iframe>
+            </div>
+        </div>
+    </div>
+
     <script>
         // =========================================================================
-        // قاعدة البيانات الكاملة لجميع الشعب والسنوات (مدمجة من الملف الأصلي والقوائم المقدمة)
+        // قاعدة البيانات الكاملة لجميع الشعب والسنوات (مدمجة من الملف الأصلي)
         // =========================================================================
         const baccalaureateLinks = {
             // ------------------------------ شعبة الرياضيات ------------------------------
@@ -661,7 +766,6 @@
                     "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_m_philo_s.pdf" }
                 }
             },
-
             // ------------------------------ شعبة العلوم التجريبية ------------------------------
             science: {
                 2025: {
@@ -871,7 +975,6 @@
                     "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_se_philo_s.pdf" }
                 }
             },
-
             // ------------------------------ شعبة التقني رياضي ------------------------------
             "tech-math": {
                 2025: {
@@ -1134,7 +1237,6 @@
                     "هندسة الطرائق": { subject: "http://khelifak.files.wordpress.com/2013/05/bac_2008_mt_gmeth.pdf", solution: "http://khelifak.files.wordpress.com/2013/05/bac_2008_mt_gmeth_s.pdf" }
                 }
             },
-
             // ------------------------------ شعبة التسيير و الإقتصاد ------------------------------
             management: {
                 2025: {
@@ -1360,7 +1462,6 @@
                     "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_ge_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_ge_philo_s.pdf" }
                 }
             },
-
             // ------------------------------ شعبة الآداب و الفلسفة ------------------------------
             literature: {
                 2025: {
@@ -1539,7 +1640,6 @@
                     "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_l_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_l_philo_s.pdf" }
                 }
             },
-
             // ------------------------------ شعبة اللغات الأجنبية ------------------------------
             languages: {
                 2025: {
@@ -1758,7 +1858,6 @@
                     "الفلسفة": { subject: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_lang_philo.pdf", solution: "https://baccalauria.wordpress.com/wp-content/uploads/2013/05/bac_2008_lang_philo_s.pdf" }
                 }
             },
-
             // ------------------------------ شعبة الفنون ------------------------------
             arts: {
                 2025: {
@@ -1783,7 +1882,6 @@
             }
         };
 
-        // تعريف الشعب مع المواد الخاصة بكل منها (تم تحديث شعبة التسيير و الإقتصاد بإضافة الأمازيغية)
         const branches = [
             {
                 id: 'math',
@@ -1863,22 +1961,34 @@
             `).join('');
         }
 
-        // دالة تحويل رابط Drive إلى صيغة المعاينة
+        // ================== دالة تحويل الروابط المعدلة ==================
         function getPreviewUrl(url) {
-            if (!url) return url;
-            // تحويل روابط drive.google.com/open?id=... إلى /preview
-            if (url.includes('drive.google.com/open?id=')) {
-                const fileId = url.split('id=')[1].split('&')[0];
-                return `https://drive.google.com/file/d/${fileId}/preview`;
-            }
-            // تحويل روابط drive.google.com/file/d/.../view?usp=... إلى /preview
-            if (url.includes('drive.google.com/file/d/')) {
-                const match = url.match(/\/d\/([^/]+)/);
-                if (match) {
-                    return `https://drive.google.com/file/d/${match[1]}/preview`;
+            if (!url) return null;
+
+            // 1. تحويل روابط Google Drive
+            if (url.includes('drive.google.com')) {
+                let fileId = null;
+                // التعامل مع روابط open?id=
+                if (url.includes('open?id=')) {
+                    fileId = url.split('open?id=')[1].split('&')[0];
+                }
+                // التعامل مع روابط file/d/
+                else if (url.includes('/d/')) {
+                    fileId = url.split('/d/')[1].split('/')[0];
+                }
+                
+                if (fileId) {
+                    // استخدام /preview للعرض داخل iframe
+                    return `https://drive.google.com/file/d/${fileId}/preview`;
                 }
             }
-            // روابط WordPress تبقى كما هي لأنها تعرض PDF مباشرة
+
+            // 2. التعامل مع ملفات PDF الخارجية (مثل baccalauria.wordpress.com)
+            // يتم استخدام Google Docs Viewer لضمان العرض داخل الصفحة
+            if (url.endsWith('.pdf') || url.includes('.pdf')) {
+                return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+            }
+
             return url;
         }
 
@@ -1913,8 +2023,6 @@
                 const subjectLink = getLink(subject, 'subject');
                 const solutionLink = getLink(subject, 'solution');
                 
-                const disabledAttr = !subjectLink && !solutionLink ? 'disabled' : '';
-                const disabledClass = !subjectLink && !solutionLink ? 'disabled-btn' : '';
                 const opacityStyle = !subjectLink && !solutionLink ? 'opacity: 0.5;' : '';
 
                 return `
@@ -1922,12 +2030,12 @@
                     <div class="subject-name">${subject}</div>
                     <div class="subject-actions">
                         <button class="action-btn preview-btn ${!subjectLink ? 'disabled-btn' : ''}" 
-                            ${subjectLink ? `onclick="preview('${subject}')"` : 'disabled'} 
+                            ${subjectLink ? `onclick="openModal('${subject}', 'subject')"` : 'disabled'} 
                             ${!subjectLink ? 'disabled' : ''}>
                             👁️ الموضوع
                         </button>
                         <button class="action-btn solution-btn ${!solutionLink ? 'disabled-btn' : ''}" 
-                            ${solutionLink ? `onclick="showSolution('${subject}')"` : 'disabled'}
+                            ${solutionLink ? `onclick="openModal('${subject}', 'solution')"` : 'disabled'}
                             ${!solutionLink ? 'disabled' : ''}>
                             📖 الحل
                         </button>
@@ -1936,6 +2044,55 @@
                 `;
             }).join('');
         }
+
+        // ================== دوال النافذة المنبثقة (Modal) ==================
+        
+        function openModal(subject, type) {
+            const url = getLink(subject, type);
+            if (!url) return;
+
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfFrame');
+            const modalTitle = document.getElementById('modalTitle');
+
+            // تحديث العنوان
+            const typeName = type === 'subject' ? 'الموضوع' : 'الحل';
+            modalTitle.textContent = `${subject} - ${typeName} ${selectedYear}`;
+
+            // إظهار الـ Loader وإخفاء الـ Frame مؤقتاً
+            iframe.style.display = 'none';
+            document.querySelector('.loader').style.display = 'block';
+            
+            modal.style.display = 'flex';
+
+            // تحميل الـ iframe
+            iframe.src = url;
+            
+            // عند انتهاء التحميل، إخفاء الـ Loader وإظهار الـ Frame
+            iframe.onload = function() {
+                document.querySelector('.loader').style.display = 'none';
+                iframe.style.display = 'block';
+            };
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfFrame');
+            
+            modal.style.display = 'none';
+            // تنظيف الـ src لإيقاف التحميل
+            iframe.src = ''; 
+        }
+
+        // إغلاق النافذة عند الضغط خارج المحتوى
+        window.onclick = function(event) {
+            const modal = document.getElementById('pdfModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // ================================================================
 
         function selectBranch(branchId) {
             selectedBranch = branchId;
@@ -1964,24 +2121,6 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('clearSearch').style.display = 'none';
             renderSubjects();
-        }
-
-        function preview(subject) {
-            const url = getLink(subject, 'subject');
-            if (url) {
-                window.open(url, '_blank');
-            } else {
-                alert('عذراً، الرابط غير متوفر لهذه المادة في هذه السنة.');
-            }
-        }
-
-        function showSolution(subject) {
-            const url = getLink(subject, 'solution');
-            if (url) {
-                window.open(url, '_blank');
-            } else {
-                alert('عذراً، حل الموضوع غير متوفر لهذه المادة في هذه السنة.');
-            }
         }
 
         // Start
